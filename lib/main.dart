@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget {
               return MaterialApp(
                 navigatorKey: NavigatorProvider.navigatorKey,
                 title: appNameText,
-                debugShowCheckedModeBanner: false,
+                debugShowCheckedModeBanner: kDebugMode ? true : false,
                 // showPerformanceOverlay: true,
                 theme: globalThemeData(context, provider),
                 darkTheme: ThemeData(
@@ -132,7 +132,7 @@ class InitialScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           clog('Apakah user terverifikasi? ${snapshot.data}');
           if (snapshot.data == false) return const OnboardingScreen();
-          if (snapshot.data != false) return const LoginScreen();
+          if (snapshot.data != false) return LoginScreen();
         }
         return const SplashScreen();
       },

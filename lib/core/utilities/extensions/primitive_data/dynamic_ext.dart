@@ -77,4 +77,30 @@ extension DynamicManipulator on dynamic {
       return false;
     }
   }
+
+  Map<String, dynamic> get responseToMapStringDynamic{
+    try {
+      if (this == null) return {};
+      if (runtimeType != Map<String, dynamic>) clog('Respon Tipe Data Tidak Sesuai! responseToBool. Runtime Diterima: $runtimeType');
+      if (this is Map<String, dynamic>) {
+        return this as Map<String, dynamic>;
+      }
+
+      if (this is Map) return Map<String, dynamic>.from(this as Map);
+      if (this is List<dynamic>) {
+        final list = this as List<dynamic>;
+        if (list.isEmpty) {
+          clog('Warning: List kosong diterima di responseToMapStringDynamic');
+          return {};
+        }
+        if (list.first is Map) return Map<String, dynamic>.from(list.first as Map);
+      }
+
+      clog('Warning: Tipe data tidak dapat dikonversi: $runtimeType');
+      return {};
+    } catch (e, s) {
+      clog('Terjadi masalah saat responseToMapStringDynamic: $e\n$s');
+      return {};
+    }
+  }
 }

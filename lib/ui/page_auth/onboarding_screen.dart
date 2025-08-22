@@ -97,7 +97,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Positioned(
       top: getMediaQueryHeight(context) * .05,
       right: 20,
-      child: cText(context,'Gasskeun', style: TextStyles.semiLarge(context).copyWith(color: ThemeColors.onSurface(context)), onTap: () => _onSkip()),
+      child: cText(context,'Gasskeun', style: TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context)), onTap: () => _onSkip()),
     );
   }
 

@@ -10,6 +10,7 @@
     <application
         android:label="GERCEPin V2"
         android:name="${applicationName}"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
 
         <!-- Tambahkan kode ini untuk menginisiasi map menggunakan Google Map API -->

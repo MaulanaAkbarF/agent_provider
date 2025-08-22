@@ -1,13 +1,8 @@
 import 'package:agent/core/constant_values/_constant_text_values.dart';
 import 'package:agent/core/services/http_services/endpoints/auth/auth_services.dart';
-import 'package:agent/core/services/http_services/exceptions.dart';
-import 'package:agent/core/services/http_services/http_connection.dart';
-import 'package:agent/core/utilities/functions/page_routes_func.dart';
-import 'package:agent/core/utilities/functions/system_func.dart';
 import 'package:agent/ui/layouts/global_return_widgets/helper_widgets_func.dart';
-import 'package:agent/ui/layouts/global_state_widgets/modal_bottom_sheet/exception_bottom_sheet.dart';
 import 'package:agent/ui/layouts/global_state_widgets/selected_item/dropdown.dart';
-import 'package:agent/ui/page_auth/verifyscreen.dart';
+import 'package:agent/ui/page_main/_bottom_navbar/main_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +15,7 @@ import '../../core/state_management/providers/auth/user_provider.dart';
 import '../../core/utilities/functions/input_func.dart';
 import '../../core/utilities/functions/logger_func.dart';
 import '../../core/utilities/functions/media_query_func.dart';
+import '../../core/utilities/functions/page_routes_func.dart';
 import '../layouts/global_return_widgets/media_widgets_func.dart';
 import '../layouts/global_state_widgets/button/button_progress/animation_progress.dart';
 import '../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
@@ -29,33 +25,18 @@ import '../layouts/global_state_widgets/textfield/textfield_form/regular_form.da
 import '../layouts/styleconfig/textstyle.dart';
 import '../layouts/styleconfig/themecolors.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class VerifyScreen extends StatefulWidget {
+  final String nomor;
+  const VerifyScreen({super.key, required this.nomor});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<VerifyScreen> createState() => _VerifyScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final _formLoginScreen = GlobalKey<FormState>();
-  final TextEditingController tecNomor = TextEditingController(text: '');
-
-  CountryData? data = getCountryDataById(1);
-  CountryData? dataSaved = getCountryDataById(1);
+class _VerifyScreenState extends State<VerifyScreen> {
+  final _formVerifyScreen = GlobalKey<FormState>();
+  final TextEditingController tecKode = TextEditingController(text: '');
   int input = 0;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      /// Letakkan kode ini pada halaman awal yang tampil ketika pertama kali membuka aplikasi
-      /// Namun jangan letakkan kode ini pada halaman splash screen atau sejenisnya
-      /// Letakkan pada halaman login [jika tidak ada fitur auto-login] atau halaman beranda [jika terdapat fitur auto-login]
-      /// Karena kode ini juga mencakup penanganan aksi notifikasi pada saat aplikasi dimatikan [onTerminated]
-      await fcmNotificationInit(context);
-      await getFcmNotificationToken();
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,14 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Row(
               children: [
+                IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back, size: iconBtnMid, color: ThemeColors.surface(context))),
                 Expanded(child: SizedBox()),
-                AnimateProgressButton(
-                  labelButton: 'Indonesia',
-                  height: heightMid,
-                  onTap: () async {
-
-                  },
-                ),
               ],
             ),
             Expanded(
@@ -130,11 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  cText(context, "Selamat Datang\ndi $appNameText", style: TextStyles.mega(context).copyWith(
+                  cText(context, "OTP udah di\nWhatsApp!", style: TextStyles.mega(context).copyWith(
                     color: ThemeColors.typographyHighContrast(context), fontWeight: FontWeight.bold)
                   ),
                   ColumnDivider(),
-                  cText(context, "Mulai sekarang lebih simpel\nDaftar dan login dalam sekejap.", style: TextStyles.large(context).copyWith(
+                  cText(context, "Kode OTP baru aja mendarat di\nnomor +${widget.nomor}", style: TextStyles.large(context).copyWith(
                       color: ThemeColors.typographyHighContrast(context))
                   )
                 ],
@@ -148,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _onBottomLayout(BuildContext context){
     return Form(
-      key: _formLoginScreen,
+      key: _formVerifyScreen,
       child: Positioned(
         bottom: 0,
         left: 0,
@@ -170,69 +145,44 @@ class _LoginScreenState extends State<LoginScreen> {
               ColumnDivider(),
               Row(
                 children: [
-                  GestureDetector(
-                    onTap: () async {
-                      await showRegularBottomSheet<CountryData>(
-                        context: context,
-                        showCountryDataOption: true,
-                        multiplierHeight: .8,
-                        title: 'Cari kode negara',
-                      ).then((value) => setState((){
-                        if (value != null) {
-                          data = value;
-                          dataSaved = value;
-                        } else {
-                          data = dataSaved;
-                        }
-                      }));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: paddingNear * .5, horizontal: paddingMid),
-                      decoration: BoxDecoration(color: ThemeColors.secondaryRevert(context), borderRadius: BorderRadius.circular(radiusCircle),
-                          border: Border.all(color: ThemeColors.primary(context).withValues(alpha: .3), width: 2)
-                      ),
-                      child: Row(
-                        children: [
-                          cText(context, data?.dialCode ?? ''),
-                          Icon(Icons.keyboard_arrow_down_rounded, size: iconBtnMid, color: ThemeColors.primary(context)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  RowDivider(),
                   Expanded(
                     flex: 6,
                     child: RegularTextField(
-                      controller: tecNomor,
-                      hintText: '81x-xxx-xxx',
+                      controller: tecKode,
+                      hintText: '*****',
                       keyboardType: TextInputType.number,
-                      minInput: 8,
+                      minInput: 5,
+                      maxInput: 5,
                       inputStyle: TextStyles.large(context).copyWith(fontWeight: FontWeight.bold),
                       hintStyle: TextStyles.large(context).copyWith(color: ThemeColors.grey(context), fontWeight: FontWeight.bold),
                       containerColor: ThemeColors.secondaryRevert(context),
+                      suffixIcon: Icon(Icons.copy_outlined, color: ThemeColors.primary(context), size: iconBtnSmall),
                       isRequired: true,
                       onChanged: (value) => setState(() => input = value.length),
                     ),
                   ),
+                  RowDivider(),
+                  Expanded(
+                    flex: 3,
+                    child: AnimateProgressButton(
+                      labelButton: 'Kirim Kode',
+                      height: heightMid,
+                      onTap: () async {
+
+                      },
+                    ),
+                  )
                 ],
               ),
               ColumnDivider(space: spaceMid),
               AnimateProgressButton(
                 labelButton: 'Lanjutkan',
                 useArrow: true,
-                enable: input < 8 ? false : true,
+                enable: input < 5 ? false : true,
                 onTap: () async {
-                  if (_formLoginScreen.currentState!.validate()){
-                    String dialCode = data?.dialCode.replaceAll('+', '') ?? getCountryDataById(1)!.dialCode;
-                    String phoneNumber = tecNomor.text.trim();
-                    if (phoneNumber.startsWith('+') || phoneNumber.startsWith('0')) {
-                      phoneNumber = phoneNumber.replaceFirst(RegExp(r'^\+?0?'), dialCode);
-                    } else {
-                      phoneNumber = dialCode + phoneNumber;
-                    }
-
-                    bool resp = await UserProvider.read(context).requestOTP(context: context, phoneNumber: phoneNumber);
-                    if (resp) startScreenSwipe(context, VerifyScreen(nomor: phoneNumber));
+                  if (_formVerifyScreen.currentState!.validate()){
+                    bool resp = await UserProvider.read(context).verifyOtp(context: context, otpCode: tecKode.text);
+                    if (resp) startScreenSwipe(context, MainNavbar());
                   }
                 },
               )

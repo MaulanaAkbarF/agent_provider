@@ -244,7 +244,7 @@ class AnimateProgressButtonState extends State<AnimateProgressButton> with Singl
                                 _loading ? widget.labelProgress ?? 'Memproses' : widget.labelButton ?? 'Konfirmasi',
                                 align: widget.textAlign,
                                 maxLines: 2,
-                                style: widget.labelButtonStyle ?? TextStyles.large(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                style: widget.labelButtonStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                               ),
                             ),
                           );

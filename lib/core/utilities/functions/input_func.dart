@@ -50,15 +50,17 @@ class DecimalTextInputFormatter extends TextInputFormatter {
   }
 }
 
-List<CountryData> convertToCountryData(List<Map<String, String>> data) {
-  return data.map((map) => CountryData(
-    id: int.parse(map['id']!),
+List<CountryData> convertToCountryData() {
+  return countryDataList.map((map) => CountryData(
+    id: map['id']!,
     name: map['name']!,
     isoCode: map['iso_code']!,
     dialCode: map['dial_code']!,
     flagEmoji: map['flag_emoji']!,
   )).toList();
 }
+
+CountryData? getCountryDataById(int id) => convertToCountryData().firstWhere((country) => country.id == id, orElse: () => throw Exception('ID negara tidak ditemukan'));
 
 (List<Expansion>, String) convertDialCodeToList() {
   return (countryDataList.map((map) => Expansion(text: map['dial_code']!)).toList(), '+62');

@@ -9,6 +9,11 @@ const String imgNotification = 'assets/image/img_notification.jpg';
 const String decorationOnboarding = 'assets/image/decoration_purple_blur_on_boarding.png';
 const String decorationFlower = 'assets/image/decoration_flower.png';
 const String decorationTop = 'assets/image/decoration_purple_blur_top.png';
+const String exceptionNoInternet = 'assets/image/e_no_connection.png';
+const String exceptionComingsoon = 'assets/image/e_comingsoon.png';
+const String exceptionTimeOut = 'assets/image/e_timeout.png';
+const String exceptionServerError = 'assets/image/e_freeze.png';
+const String exceptionNoData = 'assets/image/e_no_data.png';
 
 
 /// Nilai untuk mengatur path Icon/Menu

@@ -1,26 +1,20 @@
-
-
 class UserAuth {
-  // bool isVerify;
   String? accessToken;
   User user;
 
   UserAuth({
-    // required this.isVerify,
     this.accessToken,
     required this.user,
   });
 
   factory UserAuth.fromJson(Map<String, dynamic> json) => UserAuth(
-    // isVerify: json["is_verify"],
-    accessToken: json["access_token"],
+    accessToken: json["token"],
     user: User.fromJson(json["user"]),
   );
 
   Map<String, dynamic> toJson() => {
-    // "is_verify": isVerify,
-    "access_token": accessToken,
-    "user": user,
+    "token": accessToken,
+    "user": user.toJson(),
   };
 }
 
@@ -29,7 +23,7 @@ class User {
   String? name;
   String? email;
   String? gender;
-  int phoneNumber;
+  String phoneNumber;
   String? avatarUrl;
 
   User({
@@ -46,7 +40,7 @@ class User {
     name: json["name"],
     email: json["email"],
     gender: json["gender"],
-    phoneNumber: json["phone_number"] ?? 0,
+    phoneNumber: json["phone_number"]?.toString() ?? "0",
     avatarUrl: json["avatar_url"],
   );
 

@@ -144,7 +144,7 @@ class RegularTextField extends StatelessWidget {
               controller: controller,
               keyboardType: keyboardType,
               cursorColor: ThemeColors.surface(context),
-              style: inputStyle ?? TextStyles.medium(context).copyWith(color: ThemeColors.red(context)),
+              style: inputStyle ?? TextStyles.medium(context).copyWith(color: ThemeColors.surface(context)),
               autocorrect: autocorrect ?? false,
               enableSuggestions: enableSuggestions ?? false,
               onChanged: onChanged,
@@ -172,7 +172,7 @@ class RegularTextField extends StatelessWidget {
                 hintStyle: hintStyle ?? TextStyles.medium(context).copyWith(color: ThemeColors.grey(context)),
                 label: labelTextField != null ? Text(labelTextField ?? "", style: labelStyle ??
                     TextStyles.medium(context).copyWith(color: ThemeColors.greyHighContrast(context))) : null,
-                errorStyle: TextStyles.medium(context).copyWith(color: ThemeColors.red(context), fontWeight: FontWeight.bold),
+                errorStyle: TextStyles.medium(context).copyWith(color: ThemeColors.surface(context), fontWeight: FontWeight.bold),
                 prefixIcon: prefixIcon != null ? GestureDetector(onTap: prefixOnTap, child: prefixIcon,) : null,
                 suffixIcon: suffixIcon != null ? GestureDetector(onTap: suffixOnTap, child: suffixIcon,) : null,
                 border: isOnlyBottomBorder != null && isOnlyBottomBorder! ? UnderlineInputBorder(
