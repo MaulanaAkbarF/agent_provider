@@ -1,12 +1,8 @@
 import 'package:agent/core/constant_values/_utlities_values.dart';
 import 'package:agent/core/services/http_services/_global_url.dart';
 import 'package:agent/core/services/http_services/http_connection.dart';
-import 'package:agent/core/utilities/extensions/primitive_data/dynamic_ext.dart';
-import 'package:agent/ui/layouts/global_state_widgets/modal_bottom_sheet/exception_bottom_sheet.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../../../models/auth_model/data_user.dart';
-import '../../../../utilities/functions/logger_func.dart';
 
 class AuthServiceHttp extends HttpConnection {
   AuthServiceHttp(super.context);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constant_values/_constant_text_values.dart';
+import '../../../core/constant_values/assets_values.dart';
 import '../../../core/constant_values/global_values.dart';
 import '../../../core/state_management/providers/_global_widget/main_navbar_provider.dart';
 import '../../../core/state_management/providers/_settings/appearance_provider.dart';
@@ -43,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
     return CustomScaffold(
       canPop: false,
       useSafeArea: true,
-      padding: EdgeInsets.all(paddingMid),
+      padding: EdgeInsets.zero,
       body: _bodyWidget(context)
     );
   }
@@ -52,78 +53,118 @@ class ProfileScreen extends StatelessWidget {
     return CustomScaffold(
       canPop: false,
       useSafeArea: true,
-      padding: EdgeInsets.all(paddingMid),
+      padding: EdgeInsets.zero,
       body: _bodyWidget(context)
     );
   }
 
+
+
   Widget _bodyWidget(BuildContext context){
-    return ListView(
+    return Stack(
       children: [
-        cText(context, 'Profil', style: TextStyles.giant(context).copyWith(fontWeight: FontWeight.bold)),
-        ColumnDivider(space: spaceMid),
-        Row(
-          children: [
-            loadCircleImage(context: context),
-            RowDivider(space: spaceMid),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  cText(context, UserProvider.read(context).user?.name ?? 'Guest'),
-                  cText(context, UserProvider.read(context).user?.email ?? 'guest@mail.com'),
-                ],
-              ),
-            ),
-          ],
+        loadImageAssetPNG(path: decorationFlower, width: getMediaQueryWidth(context), height: getMediaQueryHeight(context)),
+        loadImageAssetPNG(path: decorationTop, width: getMediaQueryWidth(context), height: getMediaQueryHeight(context)),
+        // _onTopLayout(context),
+        _onBottomLayout(context),
+        Positioned(
+          bottom: getMediaQueryHeight(context) * .74,
+          left: 20,
+          child: loadCircleImage(context: context, imageAssetPath: avatarDummy, radius: 60)
         ),
-        ColumnDivider(space: spaceFar),
-        _button(context: context, label: 'Edit Informasi Akun', icon: Icon(Icons.manage_accounts, size: iconBtnSmall, color: ThemeColors.green(context)),
-            onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
-        ColumnDivider(space: spaceNear),
-        _button(context: context, label: 'FAQ', icon: Icon(Icons.question_answer, size: iconBtnSmall, color: ThemeColors.surface(context)),
-            onTap: () async => await startScreenSwipe(context, FaqScreen())),
-        ColumnDivider(space: spaceNear),
-        _button(context: context, label: 'Kebijakan Pengguna', icon: Icon(Icons.info, size: iconBtnSmall, color: ThemeColors.yellow(context)),
-            onTap: () async => await startScreenSwipe(context, PrivacyPolicyScreen())),
-        ColumnDivider(space: spaceNear),
-        _button(context: context, label: 'Hubungi Kami', icon: Icon(Icons.call, size: iconBtnSmall, color: ThemeColors.teal(context)),
-            onTap: () async => await startScreenSwipe(context, CallUsScreen())),
-        ColumnDivider(space: spaceNear),
-        _button(context: context, label: 'Tentang Aplikasi', icon: Icon(Icons.device_unknown, size: iconBtnSmall, color: ThemeColors.cyan(context)),
-            onTap: () async => await startScreenSwipe(context, AboutAppScreen())),
-        ColumnDivider(space: spaceNear),
-        _button(context: context, label: 'Pengaturan', icon: Icon(Icons.settings, size: iconBtnSmall, color: ThemeColors.grey(context)),
-            onTap: () async => await startScreenSwipe(context, MainSettingScreen())),
-        ColumnDivider(space: spaceFar),
-        AnimateProgressButton(
-            labelButton: 'Keluar',
-            labelButtonStyle: TextStyles.semiLarge(context).copyWith(color: ThemeColors.redHighContrast(context)),
-            containerColor: ThemeColors.maroonVeryLowContrast(context),
-            icon: Icon(Icons.logout, size: iconBtnSmall, color: ThemeColors.redHighContrast(context)),
-            useArrow: false,
-            onTap: () => showDialog(context: context, builder: (context) => DialogTwoButton(
-                header: 'Logout', description: '\nAnda yakin ingin keluar dari sesi Anda saat ini?\n', acceptedOnTap: () async {
-              await UserProvider.read(context).logout(context);
-              MainNavbarProvider.read(context).changePageIndex(0);
-              startScreenRemoveAll(context, LoginScreen());
-            }))
-        ),
-        ColumnDivider(space: spaceNear),
-        cText(context, appVersionText, align: TextAlign.center, style: TextStyles.verySmall(context))
       ],
     );
   }
 
-  Widget _button({required BuildContext context, required String label, required Icon icon, required VoidCallback onTap, Function(bool)? onHover}){
+  Widget _onBottomLayout(BuildContext context){
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        height: getMediaQueryHeight(context) * .8,
+        padding: EdgeInsets.all(paddingFar),
+        decoration: BoxDecoration(
+          color: ThemeColors.onSurface(context),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(radiusDiamond)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AnimateProgressButton(
+                    labelButton: "Edit Profile",
+                    borderRadius: radiusCircle,
+                    onTap: (){
+
+                    },
+                  ),
+                ),
+              ],
+            ),
+            cText(context, '${UserProvider.watch(context).user?.name ?? 'Pengguna'}!',
+                style: TextStyles.giant(context).copyWith(fontWeight: FontWeight.bold)),
+            ColumnDivider(),
+            cText(context, '${UserProvider.watch(context).user?.phoneNumber ?? '08123456789'}!',
+                style: TextStyles.large(context)),
+            ColumnDivider(space: spaceFar),
+            _buildButtonLayour(context)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButtonLayour(BuildContext context){
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(paddingMid),
+          decoration: BoxDecoration(color: ThemeColors.secondaryRevert(context), borderRadius: BorderRadius.circular(radiusTriangle)),
+          child: Column(
+            children: [
+              _button(context: context, label: 'Bahasa', image: loadImageAssetPNG(path: iconLanguage),
+                  onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
+              ColumnDivider(),
+              _button(context: context, label: 'Notifikasi', image: loadImageAssetPNG(path: iconNotification),
+                  onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
+            ],
+          ),
+        ),
+        ColumnDivider(space: spaceMid),
+        Container(
+          padding: EdgeInsets.all(paddingMid),
+          decoration: BoxDecoration(color: ThemeColors.secondaryRevert(context), borderRadius: BorderRadius.circular(radiusTriangle)),
+          child: Column(
+            children: [
+              _button(context: context, label: 'Seputar Gercepin', image: loadImageAssetPNG(path: iconAbout),
+                  onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
+              ColumnDivider(),
+              _button(context: context, label: 'Bantuan dan Laporan', image: loadImageAssetPNG(path: iconHelp),
+                  onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _button({required BuildContext context, required String label, required Image image, required VoidCallback onTap}){
     return AnimateProgressButton(
-        labelButton: label,
-        labelButtonStyle: TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context)),
-        containerColor: ThemeColors.greyVeryLowContrast(context),
-        icon: icon,
-        useArrow: true,
-        onHover: onHover,
-        onTap: onTap
+      labelButton: label,
+      labelButtonStyle: TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context)),
+      textAlign: TextAlign.start,
+      containerColor: Colors.transparent,
+      height: heightMid,
+      image: image,
+      useArrow: true,
+      arrowColor: ThemeColors.primary(context),
+      useShadow: false,
+      onTap: onTap
     );
   }
 }

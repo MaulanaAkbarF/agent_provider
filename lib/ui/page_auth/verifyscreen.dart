@@ -1,29 +1,21 @@
-import 'package:agent/core/constant_values/_constant_text_values.dart';
-import 'package:agent/core/services/http_services/endpoints/auth/auth_services.dart';
 import 'package:agent/ui/layouts/global_return_widgets/helper_widgets_func.dart';
-import 'package:agent/ui/layouts/global_state_widgets/selected_item/dropdown.dart';
-import 'package:agent/ui/page_main/_bottom_navbar/main_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constant_values/assets_values.dart';
 import '../../core/constant_values/global_values.dart';
-import '../../core/models/_global_widget_model/country_data.dart';
-import '../../core/services/firebase/firebase_messaging.dart';
 import '../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../core/state_management/providers/auth/user_provider.dart';
-import '../../core/utilities/functions/input_func.dart';
-import '../../core/utilities/functions/logger_func.dart';
 import '../../core/utilities/functions/media_query_func.dart';
 import '../../core/utilities/functions/page_routes_func.dart';
 import '../layouts/global_return_widgets/media_widgets_func.dart';
 import '../layouts/global_state_widgets/button/button_progress/animation_progress.dart';
 import '../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
 import '../layouts/global_state_widgets/divider/custom_divider.dart';
-import '../layouts/global_state_widgets/modal_bottom_sheet/regular_bottom_sheet.dart';
 import '../layouts/global_state_widgets/textfield/textfield_form/regular_form.dart';
 import '../layouts/styleconfig/textstyle.dart';
 import '../layouts/styleconfig/themecolors.dart';
+import '../page_main/_bottom_navbar/main_navbar_custom.dart';
 
 class VerifyScreen extends StatefulWidget {
   final String nomor;
@@ -182,7 +174,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 onTap: () async {
                   if (_formVerifyScreen.currentState!.validate()){
                     bool resp = await UserProvider.read(context).verifyOtp(context: context, otpCode: tecKode.text);
-                    if (resp) startScreenSwipe(context, MainNavbar());
+                    if (resp) startScreenSwipe(context, MainNavbarCustom());
                   }
                 },
               )

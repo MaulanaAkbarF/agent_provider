@@ -9,6 +9,7 @@ const String imgNotification = 'assets/image/img_notification.jpg';
 const String decorationOnboarding = 'assets/image/decoration_purple_blur_on_boarding.png';
 const String decorationFlower = 'assets/image/decoration_flower.png';
 const String decorationTop = 'assets/image/decoration_purple_blur_top.png';
+const String avatarDummy = 'assets/image/avatar_dummy.png';
 const String exceptionNoInternet = 'assets/image/e_no_connection.png';
 const String exceptionComingsoon = 'assets/image/e_comingsoon.png';
 const String exceptionTimeOut = 'assets/image/e_timeout.png';
@@ -26,6 +27,17 @@ const String iconGmailPNG = 'assets/icon/gmail.png';
 const String iconInstagramPNG = 'assets/icon/instagram.png';
 const String iconFacebookPNG = 'assets/icon/facebook.png';
 /// Tambahkan path Icon/Menu Anda
+const String iconMainDashboard = 'assets/icon/main_dashboard.svg';
+const String iconMainPromo = 'assets/icon/main_promo.svg';
+const String iconMainHistory = 'assets/icon/main_history.svg';
+const String iconMainChat = 'assets/icon/main_chat.svg';
+const String iconAmbulance = 'assets/icon/ambulance.svg';
+const String iconAddService = 'assets/icon/add_service.svg';
+const String iconOrderCoffee = 'assets/icon/order_coffee.svg';
+const String iconLanguage = 'assets/icon/language.svg';
+const String iconNotification = 'assets/icon/notification.svg';
+const String iconHelp = 'assets/icon/help.svg';
+const String iconAbout = 'assets/icon/about.svg';
 
 
 /// Nilai untuk mengatur path Lottie Animation

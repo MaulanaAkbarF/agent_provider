@@ -39,7 +39,9 @@ class AnimateProgressButton extends StatefulWidget {
   final bool? fitButton;
   final bool? useArrow;
   final bool? useInkWell;
+  final bool? useShadow;
   final bool? enable;
+  final Color? arrowColor;
   final Color? splashColorInkWell;
   final Color? highlightColorInkWell;
   final Function(bool)? onHover;
@@ -77,7 +79,9 @@ class AnimateProgressButton extends StatefulWidget {
     this.fitButton,
     this.useArrow,
     this.useInkWell = true,
+    this.useShadow = true,
     this.enable = true,
+    this.arrowColor,
     this.splashColorInkWell,
     this.highlightColorInkWell,
     this.onHover
@@ -128,7 +132,7 @@ class AnimateProgressButtonState extends State<AnimateProgressButton> with Singl
               : ThemeColors.primary(context).withValues(alpha: (widget.enable != null) && widget.enable! ? 1.0 : .3),
           borderRadius: BorderRadius.circular(widget.containerRadius ?? radiusTriangle),
           border: Border.all(color: widget.borderColor?.withValues(alpha: widget.borderOpacity ?? 1.0) ?? Colors.transparent, width: widget.borderSize ?? 1),
-          boxShadow: (widget.enable != null) && !widget.enable! ? [] : widget.shadowColor == null ? [
+          boxShadow: (widget.enable != null) && !widget.enable! ? [] : widget.useShadow == false ? [] : widget.shadowColor == null ? [
             BoxShadow(
               color: ThemeColors.primary(context).withValues(alpha: .4),
               offset: const Offset(0, 3),
@@ -175,8 +179,7 @@ class AnimateProgressButtonState extends State<AnimateProgressButton> with Singl
                 padding: widget.marginButtonLabel ?? EdgeInsets.symmetric(horizontal: paddingMid),
                 child: Row(
                   mainAxisSize: widget.fitButton != null && widget.fitButton! ? MainAxisSize.min : MainAxisSize.max,
-                  mainAxisAlignment: widget.mainAxisAlignment != null ? widget.mainAxisAlignment!
-                      : MainAxisAlignment.center,
+                  mainAxisAlignment: widget.mainAxisAlignment != null ? widget.mainAxisAlignment! : MainAxisAlignment.center,
                   children: [
                     if (_loading) SizedBox(
                         width: widget.height != null ? widget.height! * 0.5 : 20,
@@ -200,7 +203,12 @@ class AnimateProgressButtonState extends State<AnimateProgressButton> with Singl
                             ),
                           );
                         },
-                        child: widget.image ?? (widget.icon ?? SizedBox()),
+                        child: widget.image != null
+                            ? SizedBox(
+                                width: widget.height != null ? widget.height! * 0.75 : 30,
+                                height: widget.height != null ? widget.height! * 0.75 : 30,
+                                child: widget.image,
+                              ) : (widget.icon ?? SizedBox()),
                       ),
                     if (!_loading && widget.icon != null || !_loading && widget.image != null) RowDivider(),
 
@@ -216,14 +224,18 @@ class AnimateProgressButtonState extends State<AnimateProgressButton> with Singl
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    cText(
-                                      context,
-                                      _loading ? widget.labelProgress ?? 'Memproses' : widget.labelButton ?? 'Konfirmasi',
-                                      align: widget.textAlign ?? TextAlign.center,
-                                      maxLines: 2,
-                                      style: widget.labelButtonStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                    Align(
+                                      alignment: widget.textAlign == TextAlign.start ? Alignment.centerLeft : Alignment.center,
+                                      child: cText(
+                                        context,
+                                        _loading ? widget.labelProgress ?? 'Memproses' : widget.labelButton ?? 'Konfirmasi',
+                                        align: widget.textAlign ?? TextAlign.center,
+                                        maxLines: 2,
+                                        style: widget.labelButtonStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                    Align(alignment: Alignment.centerRight, child: Icon(Icons.arrow_forward, size: iconBtnMid, color: ThemeColors.onSurface(context)))
+                                    Align(alignment: Alignment.centerRight,
+                                        child: Icon(Icons.arrow_forward, size: iconBtnMid, color: widget.arrowColor ?? ThemeColors.onSurface(context)))
                                   ],
                                 ),
                               ),

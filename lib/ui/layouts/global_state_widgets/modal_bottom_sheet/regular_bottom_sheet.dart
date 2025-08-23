@@ -3,14 +3,11 @@ import 'package:agent/ui/layouts/global_state_widgets/button/button_progress/ani
 import 'package:agent/ui/layouts/global_state_widgets/divider/custom_divider.dart';
 import 'package:agent/ui/layouts/global_state_widgets/textfield/textfield_form/regular_form.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constant_values/global_values.dart';
 import '../../../../core/models/_global_widget_model/country_data.dart';
 import '../../../../core/utilities/functions/input_func.dart';
-import '../../../../core/utilities/functions/logger_func.dart';
-import '../../../../core/utilities/functions/media_func.dart';
 import '../../../../core/utilities/functions/media_query_func.dart';
 import '../../styleconfig/textstyle.dart';
 import '../../styleconfig/themecolors.dart';

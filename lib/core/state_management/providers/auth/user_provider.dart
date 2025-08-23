@@ -3,17 +3,14 @@
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'dart:convert';
 
-import 'package:agent/core/services/http_services/exceptions.dart';
 import 'package:agent/core/utilities/extensions/primitive_data/string_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../ui/layouts/global_state_widgets/modal_bottom_sheet/exception_bottom_sheet.dart';
 import '../../../models/auth_model/data_user.dart';
 import '../../../services/http_services/endpoints/auth/auth_services.dart';
 import '../../../utilities/functions/logger_func.dart';
-import '../../../utilities/functions/system_func.dart';
 
 class UserProvider extends ChangeNotifier {
   UserAuth? _auth;

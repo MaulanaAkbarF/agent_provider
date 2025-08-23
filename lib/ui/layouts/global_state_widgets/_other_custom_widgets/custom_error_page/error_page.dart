@@ -7,7 +7,7 @@ import '../../../../../core/state_management/providers/_global_widget/main_navba
 import '../../../../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../../../../core/utilities/functions/media_query_func.dart';
 import '../../../../../core/utilities/functions/page_routes_func.dart';
-import '../../../../page_main/_bottom_navbar/main_navbar_floating.dart';
+import '../../../../page_main/_bottom_navbar/main_navbar_custom.dart';
 import '../../../global_return_widgets/media_widgets_func.dart';
 import '../../../styleconfig/textstyle.dart';
 import '../../../styleconfig/themecolors.dart';
@@ -96,7 +96,7 @@ class ErrorPage extends StatelessWidget {
                   shadowColor: ThemeColors.surface(context),
                   onTap: () async {
                     MainNavbarProvider.read(context).changePageIndex(1);
-                    startScreenRemoveAll(context, MainFloatingNavbar());
+                    startScreenRemoveAll(context, MainNavbarCustom());
                   },
                 ),
               ),

@@ -6,6 +6,7 @@ import 'package:agent/ui/layouts/styleconfig/themedata.dart';
 import 'package:agent/ui/page_auth/login_screen.dart';
 import 'package:agent/ui/page_auth/onboarding_screen.dart';
 import 'package:agent/ui/page_auth/splash_screen.dart';
+import 'package:agent/ui/page_main/_bottom_navbar/main_navbar_custom.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -27,7 +28,6 @@ import 'core/state_management/providers/auth/user_provider.dart';
 import 'core/utilities/functions/logger_func.dart';
 import 'core/utilities/functions/page_routes_func.dart';
 import 'core/utilities/functions/system_func.dart';
-import 'core/utilities/local_storage/sqflite/_initialize/init_sqflite.dart';
 import 'core/utilities/local_storage/sqflite/services/_setting_services/log_app_services.dart';
 
 Future<void> main() async {
@@ -53,7 +53,7 @@ Future<void> main() async {
       await getInitialAppearancesData();
       // await setTimezone();
       await getUserDeviceInfo();
-      await SqfliteDatabaseHelper.initializeSqflite();
+      // await SqfliteDatabaseHelper.initializeSqflite();
     } catch (e, s) {
       clog('Terjadi masalah ketika initMain: $e\n$s');
       // FirebaseCrashlytics.instance.recordError(e, s, fatal: true);
@@ -130,9 +130,10 @@ class InitialScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) return onFailedState(context: context, description: 'MyApp Error: ${snapshot.error}', onTap: () => startScreenSwipe(context, LoginScreen()));
         if (snapshot.connectionState == ConnectionState.done) {
-          clog('Apakah user terverifikasi? ${snapshot.data}');
-          if (snapshot.data == false) return const OnboardingScreen();
-          if (snapshot.data != false) return LoginScreen();
+          clog('Apakah user terverifikasi? ${snapshot.data?.$1} | Apakah user sudah pernah membuka app? ${snapshot.data?.$1}');
+          if (snapshot.data?.$2 == true || snapshot.data?.$2 == false) return const OnboardingScreen();
+          if (snapshot.data?.$2 == false || snapshot.data?.$1 == false) return const LoginScreen();
+          if (snapshot.data?.$1 != false) return MainNavbarCustom();
         }
         return const SplashScreen();
       },

@@ -79,11 +79,11 @@ Widget loadCircleImage({
   String? imageAssetPath,
   File? fileImage,
   Color? backgroundColor,
-  double? radius,
+  double radius = 20,
 }) {
   return CircleAvatar(
-    minRadius: radius ?? 20,
-    maxRadius: radius ?? 20,
+    minRadius: radius,
+    maxRadius: radius,
     backgroundColor: backgroundColor ?? ThemeColors.greyVeryLowContrast(context),
     backgroundImage: fileImage != null ? FileImage(fileImage) : (imageUrl != null ? NetworkImage(imageUrl) : null),
     foregroundImage: fileImage != null ? FileImage(fileImage) : (imageUrl != null ? NetworkImage(imageUrl) : null),
@@ -91,7 +91,7 @@ Widget loadCircleImage({
     // onBackgroundImageError: (e, s) => clog('Terjadi masalah saat loadCircleImage Background: $e\n$s'),
     child: fileImage == null && imageUrl == null
       ? (imageAssetPath != null
-      ? loadImageAssetPNG(path: imageAssetPath, width: radius, height: radius)
+      ? loadImageAssetPNG(path: imageAssetPath, width: radius * 1.8, height: radius * 1.8)
         : Icon(Icons.person, size: iconBtnMid, color: ThemeColors.surface(context)))
         : Icon(Icons.person_2, size: iconBtnMid, color: ThemeColors.surface(context)),
   );

@@ -1,12 +1,6 @@
 import 'package:agent/core/constant_values/_constant_text_values.dart';
-import 'package:agent/core/services/http_services/endpoints/auth/auth_services.dart';
-import 'package:agent/core/services/http_services/exceptions.dart';
-import 'package:agent/core/services/http_services/http_connection.dart';
 import 'package:agent/core/utilities/functions/page_routes_func.dart';
-import 'package:agent/core/utilities/functions/system_func.dart';
 import 'package:agent/ui/layouts/global_return_widgets/helper_widgets_func.dart';
-import 'package:agent/ui/layouts/global_state_widgets/modal_bottom_sheet/exception_bottom_sheet.dart';
-import 'package:agent/ui/layouts/global_state_widgets/selected_item/dropdown.dart';
 import 'package:agent/ui/page_auth/verifyscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +12,8 @@ import '../../core/services/firebase/firebase_messaging.dart';
 import '../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../core/state_management/providers/auth/user_provider.dart';
 import '../../core/utilities/functions/input_func.dart';
-import '../../core/utilities/functions/logger_func.dart';
 import '../../core/utilities/functions/media_query_func.dart';
+import '../../core/utilities/local_storage/shared_preferences/user/user_shared.dart';
 import '../layouts/global_return_widgets/media_widgets_func.dart';
 import '../layouts/global_state_widgets/button/button_progress/animation_progress.dart';
 import '../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
@@ -53,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       /// Karena kode ini juga mencakup penanganan aksi notifikasi pada saat aplikasi dimatikan [onTerminated]
       await fcmNotificationInit(context);
       await getFcmNotificationToken();
+      await UserShared.saveInitialUser();
     });
     super.initState();
   }

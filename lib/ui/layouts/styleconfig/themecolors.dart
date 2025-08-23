@@ -26,7 +26,7 @@ class ThemeColors {
   static Color redHighContrast(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Colors.red.shade700 : Colors.red.shade300;
   static Color redVeryHighContrast(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Colors.red.shade900 : Colors.red.shade100;
   // Pink Colors
-  static Color pinkVeryLowContrast(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Colors.pink.shade100 : Colors.pink.shade900;
+  static Color pinkVeryLowContrast(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Color(0xFFFFD9D9) : Color(0xFF5D1A1A);
   static Color pinkLowContrast(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Colors.pink.shade300 : Colors.pink.shade700;
   static Color pink(BuildContext context) => Colors.pink;
   static Color pinkHighContrast(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Colors.pink.shade700 : Colors.pink.shade300;

@@ -14,6 +14,7 @@ import '../../../constant_values/_setting_value/log_app_values.dart';
 import '../../../global_values/_setting_data.dart';
 import '../../../models/_settings_model/appearances.dart';
 import '../../../utilities/functions/logger_func.dart';
+import '../../../utilities/local_storage/shared_preferences/user/user_shared.dart';
 import '../../../utilities/local_storage/sqflite/services/_setting_services/log_app_services.dart';
 import 'log_app_provider.dart';
 
@@ -43,13 +44,14 @@ class AppearanceSettingProvider extends ChangeNotifier{
   bool get isChanged => _isChanged;
 
   /// Fungsi untuk mengisiasi data saat pertama kali aplikasi dijalankan
-  Future<bool> initData(BuildContext context) async {
-    print('Init All Data STARTED!');
+  Future<(bool, bool?)> initData(BuildContext context) async {
+    await Future.delayed(Duration(seconds: 2));
     await getData();
     await PreferenceSettingProvider.read(context).getData();
     await PermissionSettingProvider.read(context).getLocationPermissionStatus();
     await LogAppSettingProvider.read(context).automaticallyDeleteLogAppWhenDateReached();
-    return await UserProvider.read(context).initialize();
+    bool? firstOpenApp = await UserShared.getInitialUser();
+    return (await UserProvider.read(context).initialize(), firstOpenApp);
   }
 
   /// Mengatur jenis font aplikasi
