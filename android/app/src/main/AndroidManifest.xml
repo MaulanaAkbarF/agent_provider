@@ -3,6 +3,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,7 +18,7 @@
 
         <!-- Tambahkan kode ini untuk menginisiasi map menggunakan Google Map API -->
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDAv8JKQJhoXtRXWbZ2OWCJS-LRQlzXqAk"/>
+            android:value="AIzaSyD-siMHBmTD61Hrv68cePrLMPH_LjUbigQ"/>
 
         <activity
             android:name=".MainActivity"

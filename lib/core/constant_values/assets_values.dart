@@ -10,6 +10,7 @@ const String decorationOnboarding = 'assets/image/decoration_purple_blur_on_boar
 const String decorationFlower = 'assets/image/decoration_flower.png';
 const String decorationTop = 'assets/image/decoration_purple_blur_top.png';
 const String avatarDummy = 'assets/image/avatar_dummy.png';
+const String activationService = 'assets/image/activation.svg';
 const String exceptionNoInternet = 'assets/image/e_no_connection.png';
 const String exceptionComingsoon = 'assets/image/e_comingsoon.png';
 const String exceptionTimeOut = 'assets/image/e_timeout.png';

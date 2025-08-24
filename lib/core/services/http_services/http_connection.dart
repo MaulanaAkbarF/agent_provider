@@ -110,7 +110,7 @@ abstract class HttpConnection {
       case 422 :
         showExceptionModalBottomSheet(context, UnprocessableEntityException(status: 422, message: ''));
         throw UnprocessableEntityException(status: e.response!.statusCode!, message: e.response!.statusMessage ?? 'Terjadi msalaah');
-    default :
+      default :
         showExceptionModalBottomSheet(context, UnknownException(status: 999, message: ''));
         throw UnknownException(status: e.response!.statusCode!, message: e.response!.statusMessage ?? 'Terjadi msalaah');
     }

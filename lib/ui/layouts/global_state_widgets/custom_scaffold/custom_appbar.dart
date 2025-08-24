@@ -1,3 +1,4 @@
+import 'package:agent/ui/layouts/global_state_widgets/button/button_progress/animation_progress.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constant_values/global_values.dart';
@@ -13,32 +14,35 @@ SliverAppBar sliverAppBarWidget({
   required String imagePath,
   String? title,
   bool? showAppLogo,
+  Color? backgroundColor,
   Widget? leading,
   List<Widget>? actions,
 }) {
   return SliverAppBar(
-    expandedHeight: 300,
+    expandedHeight: getMediaQueryHeight(context) * .25,
+    backgroundColor: backgroundColor ?? (AppearanceSettingProvider.read(context).trueBlack ? ThemeColors.onSurface(context) : null),
     leading: leading ?? GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: Container(
-          color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.all(paddingMid),
-            child: Icon(Icons.arrow_circle_left_outlined, color: ThemeColors.onSurface(context), size: iconBtnMid),
-          ),
-        )
+      onTap: () => Navigator.pop(context),
+      child: Container(
+        color: Colors.transparent,
+        child: Padding(
+          padding: const EdgeInsets.all(paddingMid),
+          child: Icon(Icons.arrow_back, color: ThemeColors.primary(context), size: iconBtnMid),
+        ),
+      )
     ),
-    title: showAppLogo != null && showAppLogo
-        ? loadDefaultAppLogoPNG()
-        : title != null
-        ? Text(title, maxLines: 1, style: TextStyles.large(context).copyWith(fontWeight: FontWeight.w700, color: ThemeColors.onSurface(context)))
-        : null,
+    title: showAppLogo != null && showAppLogo ? loadDefaultAppLogoPNG() : title != null
+        ? cText(context, title, maxLines: 1,
+        style: TextStyles.large(context).copyWith(fontWeight: FontWeight.bold, color: ThemeColors.surface(context))) : null,
     actions: actions,
-    flexibleSpace: Image.network(imagePath, height: getMediaQueryHeight(context, size: .2), fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        return Container(height: getMediaQueryHeight(context, size: .2), width: double.infinity, color: Colors.transparent, child: loadDefaultAppLogoPNG(sizeLogo: getMediaQueryHeight(context, size: .2)));
-      },
-    ),
+    flexibleSpace: imagePath.contains('http')
+        ? loadImageNetwork(imageUrl: imagePath, height: 300)
+        : imagePath.contains('assets') ? imagePath.contains('svg')
+        ? Padding(
+          padding: EdgeInsets.only(top: getMediaQueryHeight(context) * .09),
+          child: loadImageAssetSVG(path: imagePath, height: getMediaQueryHeight(context) * .2),
+        ) : loadImageAssetPNG(path: imagePath, height: 300)
+        : loadDefaultAppLogoSVG(),
   );
 }
 
@@ -48,6 +52,8 @@ AppBar appBarWidget({
   bool? showAppLogo,
   bool? showBackButton,
   Color? backgroundColor,
+  String? labelButton,
+  Function()? onTap,
   TabController? tabController,
   List<Widget>? listTab,
   List<Widget>? actions,
@@ -55,7 +61,7 @@ AppBar appBarWidget({
   PopupMenuItemBuilder<dynamic>? popupMenuItemBuilder,
 }) {
   return AppBar(
-    bottom: tabController != null ? TabBar.secondary( // atau bisa menggunakan TabBar.secondary untuk tampilan lebih kompak
+    bottom: tabController != null ? TabBar.secondary(
       labelColor: ThemeColors.surface(context),
       padding: const EdgeInsets.symmetric(horizontal: 0),
       unselectedLabelColor: ThemeColors.surface(context),
@@ -67,14 +73,36 @@ AppBar appBarWidget({
       tabs: listTab ?? [],
     ) : null,
     backgroundColor: backgroundColor ?? (AppearanceSettingProvider.read(context).trueBlack ? ThemeColors.onSurface(context) : null),
-    toolbarHeight: 45,
+    toolbarHeight: 56,
+    flexibleSpace: labelButton != null ? Align(
+      alignment: Alignment.bottomRight,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(0, 0, paddingFar, paddingMid),
+        constraints: BoxConstraints(minWidth: getMediaQueryWidth(context) * .1, maxWidth: getMediaQueryWidth(context) * .35),
+        child: AnimateProgressButton(
+          labelButton: labelButton,
+          labelProgress: 'Proses',
+          height: heightMid,
+          containerRadius: radiusCircle,
+          useShadow: false,
+          useArrow: false,
+          onTap: () => onTap != null ? onTap() : Navigator.pop(context),
+        ),
+      ),
+    ) : null,
     elevation: 0,
     scrolledUnderElevation: 0,
     leadingWidth: showBackButton != null && showBackButton ? null : 0,
-    leading: showBackButton != null && showBackButton ? null : const SizedBox(),
-    title: showAppLogo != null && showAppLogo ? Center(child: Padding(padding: const EdgeInsets.only(right: paddingNear), child: loadDefaultAppLogoPNG(sizeLogo: 40))) : title != null ? Center(
-      child: cText(context, title, maxLines: 1, style: TextStyles.large(context).copyWith(fontWeight: FontWeight.w800, color: ThemeColors.surface(context))),
-    ) : null,
+    leading: showBackButton != null && showBackButton ? IconButton(
+      onPressed: () => Navigator.pop(context),
+      icon: Icon(Icons.arrow_back, color: ThemeColors.primary(context))) : const SizedBox(),
+    title: showAppLogo != null && showAppLogo ? Center(child: Padding(padding: const EdgeInsets.only(right: paddingNear),
+        child: loadDefaultAppLogoPNG(sizeLogo: 40))) : title != null
+        ? Align(
+      alignment: Alignment.centerLeft,
+          child: cText(context, title, maxLines: 1,
+            style: TextStyles.large(context).copyWith(fontWeight: FontWeight.bold, color: ThemeColors.surface(context))),
+        ) : null,
     actions: actions ?? [
       if (onPopupMenuSelected != null && popupMenuItemBuilder != null)...[
         RowDivider(space: 8),
@@ -85,9 +113,10 @@ AppBar appBarWidget({
         ),
       ],
       if (showBackButton != null && showBackButton && onPopupMenuSelected == null
-      || showBackButton != null && showBackButton && popupMenuItemBuilder == null
-          || showBackButton != null && showBackButton && onPopupMenuSelected == null && popupMenuItemBuilder == null
-      ) RowDivider(space: 58),
+        || showBackButton != null && showBackButton && popupMenuItemBuilder == null
+        || showBackButton != null && showBackButton && onPopupMenuSelected == null && popupMenuItemBuilder == null
+        || showBackButton != null && showBackButton && onPopupMenuSelected == null && popupMenuItemBuilder == null && labelButton == null
+      ) RowDivider(space: labelButton != null ? 20 : 58),
     ],
   );
 }

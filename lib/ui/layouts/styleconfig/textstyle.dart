@@ -1,5 +1,6 @@
 import 'package:agent/ui/layouts/styleconfig/themecolors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constant_values/_setting_value/appearance_values.dart';
@@ -35,11 +36,42 @@ class TextStyles {
   static TextStyle colossal(BuildContext context) => getStyle(context, 4);
 }
 
+class HtmlStyles {
+  /// Kode untuk menggunakan styling pada teks HTML menggunakan flutter_html
+  static Style getHtmlStyle(BuildContext context, double multiplier, {ListFontType? fontType}) {
+    return Style(
+      color: ThemeColors.surface(context),
+      fontFamily: fontType?.text ?? Provider.of<AppearanceSettingProvider>(context, listen: false).fontType,
+      fontSize: FontSize(Provider.of<AppearanceSettingProvider>(context, listen: false).fontSizeString.value * multiplier),
+      fontWeight: FontWeight.normal,
+      textOverflow: TextOverflow.ellipsis,
+      margin: Margins.zero,
+    );
+  }
+
+  static Style nanoHtml(BuildContext context) => getHtmlStyle(context, 0.35);
+  static Style microHtml(BuildContext context) => getHtmlStyle(context, 0.45);
+  static Style verySmallHtml(BuildContext context) => getHtmlStyle(context, 0.55);
+  static Style smallHtml(BuildContext context) => getHtmlStyle(context, 0.68);
+  static Style semiMediumHtml(BuildContext context) => getHtmlStyle(context, 0.73);
+  static Style mediumHtml(BuildContext context) => getHtmlStyle(context, 0.78);
+  static Style semiLargeHtml(BuildContext context) => getHtmlStyle(context, 0.9);
+  static Style largeHtml(BuildContext context) => getHtmlStyle(context, 1);
+  static Style semiGiantHtml(BuildContext context) => getHtmlStyle(context, 1.2);
+  static Style giantHtml(BuildContext context) => getHtmlStyle(context, 1.4);
+  static Style semiMegaHtml(BuildContext context) => getHtmlStyle(context, 1.75);
+  static Style megaHtml(BuildContext context) => getHtmlStyle(context, 2.10);
+  static Style semiGigaHtml(BuildContext context) => getHtmlStyle(context, 2.6);
+  static Style gigaHtml(BuildContext context) => getHtmlStyle(context, 3);
+  static Style colossalHtml(BuildContext context) => getHtmlStyle(context, 4);
+}
+
 Widget cText(BuildContext context, String text, {int? maxLines,  TextAlign? align, TextStyle? style, Function()? onTap}){
   return onTap != null ? GestureDetector(
     onTap: () async => onTap(),
     child: Container(
       padding: EdgeInsets.symmetric(horizontal: paddingMid),
+      color: Colors.transparent,
       child: Text(
         text,
         maxLines: maxLines ?? 10,

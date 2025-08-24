@@ -201,7 +201,7 @@ class GoogleMapsProvider extends ChangeNotifier with WidgetsBindingObserver {
     } else {
       /// Kode berikut akan dijalankan saat pengguna menggunakan pencarion Google Maps (G-Maps)
       try {
-        final place = places.GoogleMapsPlaces(apiKey: 'AIzaSyBeSIA0J_be66pU5jbsj8Tp-3M1tWnEZTs', apiHeaders: await const GoogleApiHeaders().getHeaders());
+        final place = places.GoogleMapsPlaces(apiKey: 'AIzaSyD-siMHBmTD61Hrv68cePrLMPH_LjUbigQ', apiHeaders: await const GoogleApiHeaders().getHeaders());
         final result = await place.autocomplete(_tecSearch.text.trim(), language: 'id');
         if (result.status == "OK") {
           List<SearchMapsData> googleMapsResults = [];

@@ -2,16 +2,26 @@ import 'package:agent/ui/layouts/styleconfig/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/constant_values/assets_values.dart';
 import '../../../core/constant_values/global_values.dart';
 import '../../../core/models/_global_widget_model/bottom_navbar.dart';
 import '../../../core/state_management/providers/_global_widget/main_navbar_provider.dart';
 import '../../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../../core/utilities/functions/media_query_func.dart';
 import '../../../core/utilities/functions/system_func.dart';
+import '../../layouts/global_return_widgets/media_widgets_func.dart';
 import '../../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
 import '../../layouts/global_state_widgets/dialog/dialog_button/dialog_two_button.dart';
 import '../../layouts/styleconfig/themecolors.dart';
-import 'main_navbar.dart';
+import '../dashboard/dashboard_screen.dart';
+import '../profile/profile_screen.dart';
+
+List<BottomNavbarModel> listBottomNavbar = [
+  BottomNavbarModel(page: DashboardScreen(), title: 'Beranda', iconImage: loadImageAssetSVG(path: iconMainDashboard)),
+  BottomNavbarModel(page: DashboardScreen(), title: 'Promo', iconImage: loadImageAssetSVG(path: iconMainPromo)),
+  BottomNavbarModel(page: DashboardScreen(), title: 'Riwayat', iconImage: loadImageAssetSVG(path: iconMainHistory)),
+  BottomNavbarModel(page: ProfileScreen(), title: 'Chat', iconImage: loadImageAssetSVG(path: iconMainChat)),
+];
 
 class MainNavbarCustom extends StatelessWidget {
   const MainNavbarCustom({super.key});
@@ -38,7 +48,6 @@ class MainNavbarCustom extends StatelessWidget {
   Widget _setPhoneLayout(BuildContext context, MainNavbarProvider provider){
     return CustomScaffold(
       canPop: false,
-      useSafeArea: true,
       padding: EdgeInsets.zero,
       body: _bodyWidget(context, provider),
       bottomNavigation: _customBottomNavigation(context, provider)
@@ -48,7 +57,6 @@ class MainNavbarCustom extends StatelessWidget {
   Widget _setTabletLayout(BuildContext context, MainNavbarProvider provider){
     return CustomScaffold(
       canPop: false,
-      useSafeArea: true,
       padding: EdgeInsets.zero,
       body: _bodyWidget(context, provider),
       bottomNavigation: _customBottomNavigation(context, provider)
@@ -60,9 +68,9 @@ class MainNavbarCustom extends StatelessWidget {
       children: [
         Expanded(
           child: PageView(
-              controller: provider.pageController,
-              onPageChanged: (index) => provider.changePageIndex(index),
-              children: listBottomNavbar.map((data) => data.page).toList()
+            controller: provider.pageController,
+            onPageChanged: (index) => provider.changePageIndex(index),
+            children: listBottomNavbar.map((data) => data.page).toList()
           ),
         ),
       ],
@@ -114,7 +122,7 @@ class MainNavbarCustom extends StatelessWidget {
                   color: ThemeColors.surface(context),
                 ) : data.iconImage,
               ),
-              cText(context, data.title, style: TextStyles.medium(context).copyWith(fontWeight: FontWeight.bold, color: ThemeColors.surface(context)))
+              cText(context, data.title, maxLines: 1, style: TextStyles.medium(context).copyWith(fontWeight: FontWeight.bold, color: Colors.white))
             ],
           ),
         ),
@@ -138,7 +146,7 @@ class MainNavbarCustom extends StatelessWidget {
                   color: ThemeColors.surface(context),
                 ) : data.iconImage,
               ),
-              cText(context, data.title, style: TextStyles.medium(context).copyWith(fontWeight: FontWeight.bold, color: ThemeColors.surface(context)))
+              cText(context, data.title, maxLines: 1, style: TextStyles.medium(context).copyWith(fontWeight: FontWeight.bold, color: ThemeColors.surface(context)))
             ],
           ),
         ),

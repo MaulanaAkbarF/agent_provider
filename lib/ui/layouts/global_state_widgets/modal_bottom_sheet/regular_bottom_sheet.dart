@@ -18,7 +18,9 @@ Future<T?> showRegularBottomSheet<T>({
   String? imagePath,
   String? title,
   String? description,
+  String? labelButton,
   bool? showCountryDataOption,
+  bool? showButton,
   Widget? child,
   Future<T> Function()? onTap,
 }) async {
@@ -85,7 +87,7 @@ Future<T?> showRegularBottomSheet<T>({
                                 controller: provider.tecSearch,
                                 hintText: "Ketik nama atau kode negara",
                                 prefixIcon: Icon(Icons.search_outlined, color: ThemeColors.primary(context), size: iconBtnMid),
-                                containerColor: ThemeColors.secondaryRevert(context),
+                                containerColor: ThemeColors.secondaryLowContrastRevert(context),
                                 onChanged: (value) => provider.search(),
                               ),
                               ColumnDivider(),
@@ -99,7 +101,7 @@ Future<T?> showRegularBottomSheet<T>({
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          ColumnDivider(),
+                                          ColumnDivider(space: data.id == 1 ? spaceMid : spaceFar),
                                           cText(context, data.id == 1 ? "Negara Populer" : "Semua Negara", style: TextStyles.medium(context).copyWith(fontWeight: FontWeight.w900)),
                                           ListTile(
                                             dense: true,
@@ -134,12 +136,15 @@ Future<T?> showRegularBottomSheet<T>({
               ],
               if (child != null) child,
               ColumnDivider(),
-              if (showCountryDataOption == null || !showCountryDataOption) AnimateProgressButton(
-                onTap: () async {
-                  if (onTap == null) return;
-                  Navigator.pop(context, await onTap());
-                }
-              )
+              if (showCountryDataOption == null || !showCountryDataOption)...[
+                if (showButton == null || showButton) AnimateProgressButton(
+                  labelButton: labelButton,
+                  onTap: () async {
+                    if (onTap == null) Navigator.pop(context);
+                    if (onTap != null) await onTap();
+                  }
+                )
+              ]
             ],
           ),
         ),

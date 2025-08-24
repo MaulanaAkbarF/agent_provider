@@ -110,7 +110,7 @@ class PreferenceSettingScreen extends StatelessWidget {
         Opacity(
           opacity: PreferenceSettingProvider.read(context).useAnimation.condition ? 1.0 : .3,
           child: SettingMenuDropdown(
-            labelButton: 'Transisi Halaman',
+            labelButton: 'Transisi Halaman Kustom',
             containerColor: ThemeColors.greyVeryLowContrast(context),
             useSwitch: true,
             valueSwitch: PreferenceSettingProvider.watch(context).pageTransition.condition,
@@ -210,7 +210,7 @@ class PreferenceSettingScreen extends StatelessWidget {
                           Opacity(
                             opacity: PreferenceSettingProvider.read(context).useAnimation.condition ? 1.0 : .3,
                             child: SettingMenuDropdown(
-                              labelButton: 'Transisi Halaman',
+                              labelButton: 'Transisi Halaman Kustom',
                               containerColor: ThemeColors.greyVeryLowContrast(context),
                               useSwitch: true,
                               valueSwitch: PreferenceSettingProvider.watch(context).pageTransition.condition,

@@ -21,6 +21,7 @@ import 'log_app_provider.dart';
 class AppearanceSettingProvider extends ChangeNotifier{
   String _fontType = '';
   ListFontSize _fontSize = ListFontSize.medium;
+  ListPreferredUseMaterial3 _preferredUseMaterial3 = ListPreferredUseMaterial3.active;
   ListPreferredOrientation _preferredOrientation = ListPreferredOrientation.active;
   ListSafeAreaMode _isSafeArea = ListSafeAreaMode.active;
   ListTabletMode _isTabletMode = ListTabletMode.deactive;
@@ -33,6 +34,7 @@ class AppearanceSettingProvider extends ChangeNotifier{
 
   String get fontType => _fontType;
   ListFontSize get fontSizeString => _fontSize;
+  ListPreferredUseMaterial3 get preferredUseMaterial3 => _preferredUseMaterial3;
   ListPreferredOrientation get preferredOrientation => _preferredOrientation;
   ListSafeAreaMode get isSafeArea => _isSafeArea;
   ListTabletMode get isTabletMode => _isTabletMode;
@@ -78,6 +80,19 @@ class AppearanceSettingProvider extends ChangeNotifier{
       clog('Terjadi masalah saat setFontSize: $e\n$s');
       await addLogApp(level: ListLogAppLevel.severe.level, title: e.toString(), logs: s.toString());
     }
+  }
+
+  /// Mengatur penggunaan Safe Area (Notch) pada aplikasi.
+  /// Jika Safe Area false, maka akan memperluas tampilan aplikasi sampai ke status bar
+  Future<void> setPreferredUseMaterial3(bool data, {bool? notify}) async {
+    if (data == ListPreferredUseMaterial3.active.condition) {
+      _preferredUseMaterial3 = ListPreferredUseMaterial3.active;
+    } else {
+      _preferredUseMaterial3 = ListPreferredUseMaterial3.deactive;
+    }
+
+    await updateModel();
+    if (notify != null && notify) notifyListeners();
   }
 
   /// Mengatur penggunaan Safe Area (Notch) pada aplikasi.
@@ -186,6 +201,7 @@ class AppearanceSettingProvider extends ChangeNotifier{
     AppearancesModelSetting pref = AppearancesModelSetting(
       fontType: _fontType,
       fontSize: _fontSize,
+      preferredUseMaterial3: _preferredUseMaterial3,
       preferredOrientation: _preferredOrientation,
       isSafeArea: _isSafeArea,
       isTabletMode: _isTabletMode,
@@ -203,6 +219,7 @@ class AppearanceSettingProvider extends ChangeNotifier{
       if (pref != null){
         await setFontType(pref.fontType);
         await setFontSize(pref.fontSize.text);
+        await setPreferredUseMaterial3(pref.preferredUseMaterial3.condition);
         await setPreferredOrientation(pref.preferredOrientation.condition);
         await setIsSafeArea(pref.isSafeArea.condition);
         await setIsTabletMode(pref.isTabletMode.condition);
@@ -211,6 +228,7 @@ class AppearanceSettingProvider extends ChangeNotifier{
       } else {
         await setFontType(Platform.isAndroid ? ListFontType.google.text : Platform.isIOS ? ListFontType.apple.text : ListFontType.segoe.text);
         await setFontSize(ListFontSize.medium.text);
+        await setPreferredUseMaterial3(ListPreferredUseMaterial3.active.condition);
         await setPreferredOrientation(ListPreferredOrientation.active.condition);
         await setIsSafeArea(ListSafeAreaMode.active.condition);
         await setIsTabletMode(ListTabletMode.deactive.condition);

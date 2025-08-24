@@ -24,6 +24,15 @@ enum ListFontSize {
   const ListFontSize(this.text, this.value);
 }
 
+enum ListPreferredUseMaterial3 {
+  active("Aktif", true),
+  deactive("Non-Aktif", false);
+
+  final String text;
+  final bool condition;
+  const ListPreferredUseMaterial3(this.text, this.condition);
+}
+
 enum ListPreferredOrientation {
   active("Aktif", true),
   deactive("Non-Aktif", false);

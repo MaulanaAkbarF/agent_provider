@@ -96,6 +96,8 @@ Future<T?> startScreenFlyRepl<T>(BuildContext context, Widget pages, {PageTransi
   );
 }
 
+/// Kamu bisa menambahkan jenis animasi lain di bawah ini selain dari ketiga jenis helper animasi di atas
+
 /// Navigasikan dan hapus semua stack navigasi
 void startScreenRemoveAll(BuildContext context, Widget pages, {PageTransitionType? transition, Alignment? align, Curve? curve, int? durationMs}) {
   Navigator.pushAndRemoveUntil(

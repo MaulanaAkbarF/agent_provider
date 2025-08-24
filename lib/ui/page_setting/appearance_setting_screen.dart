@@ -92,7 +92,15 @@ class AppearanceSettingScreen extends StatelessWidget {
         _themeButton(context: context, label: ListThemeApp.black.text, desc: ListThemeApp.black.desc,
             imagePath: imgBlackMode, onTap: () => AppearanceSettingProvider.read(context).setThemeType(ListThemeApp.black.text, notify: true)),
         ColumnDivider(space: spaceFar),
-        cText(context, 'Tampilan Sisi dan Luas', style: TextStyles.semiGiant(context).copyWith(fontWeight: FontWeight.w300)),
+        cText(context, 'Preferensi Tampilan', style: TextStyles.semiGiant(context).copyWith(fontWeight: FontWeight.w300)),
+        SettingMenuDropdown(
+          labelButton: 'Gunakan Material 3',
+          containerColor: ThemeColors.greyVeryLowContrast(context),
+          useSwitch: true,
+          valueSwitch: AppearanceSettingProvider.watch(context).preferredUseMaterial3.condition,
+          onChangedSwitch: (bool? newValue) => newValue != null ? AppearanceSettingProvider.read(context).setPreferredUseMaterial3(newValue, notify: true) : {},
+        ),
+        ColumnDivider(),
         SettingMenuDropdown(
           labelButton: 'Orientasi Vertikal',
           containerColor: ThemeColors.greyVeryLowContrast(context),

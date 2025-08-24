@@ -174,7 +174,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 onTap: () async {
                   if (_formVerifyScreen.currentState!.validate()){
                     bool resp = await UserProvider.read(context).verifyOtp(context: context, otpCode: tecKode.text);
-                    if (resp) startScreenSwipe(context, MainNavbarCustom());
+                    if (resp) startScreenFade(context, MainNavbarCustom());
                   }
                 },
               )

@@ -78,7 +78,6 @@ class DialogOneButton extends StatelessWidget {
                     labelButtonStyle: acceptedTextStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                     labelProgress: loadingAcceptedText,
                     height: heightMid,
-                    containerColor: ThemeColors.blueHighContrast(context),
                     containerRadius: radiusSquare,
                     onTap: () async => acceptedOnTap != null ? acceptedOnTap!() : Navigator.pop(context),
                   )

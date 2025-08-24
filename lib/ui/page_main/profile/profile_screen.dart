@@ -1,11 +1,9 @@
-import 'package:agent/ui/page_main/profile/privacy_policy_screen.dart';
+import 'package:agent/ui/page_setting/_main_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/constant_values/_constant_text_values.dart';
 import '../../../core/constant_values/assets_values.dart';
 import '../../../core/constant_values/global_values.dart';
-import '../../../core/state_management/providers/_global_widget/main_navbar_provider.dart';
 import '../../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../../core/state_management/providers/auth/user_provider.dart';
 import '../../../core/utilities/functions/media_query_func.dart';
@@ -13,16 +11,10 @@ import '../../../core/utilities/functions/page_routes_func.dart';
 import '../../layouts/global_return_widgets/media_widgets_func.dart';
 import '../../layouts/global_state_widgets/button/button_progress/animation_progress.dart';
 import '../../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
-import '../../layouts/global_state_widgets/dialog/dialog_button/dialog_two_button.dart';
 import '../../layouts/global_state_widgets/divider/custom_divider.dart';
 import '../../layouts/styleconfig/textstyle.dart';
 import '../../layouts/styleconfig/themecolors.dart';
-import '../../page_auth/login_screen.dart';
-import '../../page_setting/_main_setting_screen.dart';
-import 'about_app_screen.dart';
-import 'call_us_screen.dart';
 import 'detail_profile_screen.dart';
-import 'faq_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -43,8 +35,9 @@ class ProfileScreen extends StatelessWidget {
   Widget _setPhoneLayout(BuildContext context){
     return CustomScaffold(
       canPop: false,
-      useSafeArea: true,
+      useSafeArea: false,
       padding: EdgeInsets.zero,
+      backgroundColor: Color(0xFF2E0948),
       body: _bodyWidget(context)
     );
   }
@@ -52,13 +45,12 @@ class ProfileScreen extends StatelessWidget {
   Widget _setTabletLayout(BuildContext context){
     return CustomScaffold(
       canPop: false,
-      useSafeArea: true,
+      useSafeArea: false,
       padding: EdgeInsets.zero,
+      backgroundColor: Color(0xFF2E0948),
       body: _bodyWidget(context)
     );
   }
-
-
 
   Widget _bodyWidget(BuildContext context){
     return Stack(
@@ -68,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
         // _onTopLayout(context),
         _onBottomLayout(context),
         Positioned(
-          bottom: getMediaQueryHeight(context) * .74,
+          bottom: getMediaQueryHeight(context) * .68,
           left: 20,
           child: loadCircleImage(context: context, imageAssetPath: avatarDummy, radius: 60)
         ),
@@ -82,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
       left: 0,
       right: 0,
       child: Container(
-        height: getMediaQueryHeight(context) * .8,
+        height: getMediaQueryHeight(context) * .74,
         padding: EdgeInsets.all(paddingFar),
         decoration: BoxDecoration(
           color: ThemeColors.onSurface(context),
@@ -98,65 +90,74 @@ class ProfileScreen extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: AnimateProgressButton(
                     labelButton: "Edit Profile",
-                    borderRadius: radiusCircle,
+                    containerRadius: radiusCircle,
+                    height: heightMid,
                     onTap: (){
-
+                      startScreenSwipe(context, EditProfileScreen());
                     },
                   ),
                 ),
               ],
             ),
-            cText(context, '${UserProvider.watch(context).user?.name ?? 'Pengguna'}!',
+            ColumnDivider(),
+            cText(context, UserProvider.watch(context).user?.name ?? 'Pengguna',
                 style: TextStyles.giant(context).copyWith(fontWeight: FontWeight.bold)),
             ColumnDivider(),
-            cText(context, '${UserProvider.watch(context).user?.phoneNumber ?? '08123456789'}!',
+            cText(context, UserProvider.watch(context).user?.phoneNumber ?? '08123456789',
                 style: TextStyles.large(context)),
-            ColumnDivider(space: spaceFar),
-            _buildButtonLayour(context)
+            _buildButtonLayout(context)
           ],
         ),
       ),
     );
   }
 
-  Widget _buildButtonLayour(BuildContext context){
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.all(paddingMid),
-          decoration: BoxDecoration(color: ThemeColors.secondaryRevert(context), borderRadius: BorderRadius.circular(radiusTriangle)),
-          child: Column(
-            children: [
-              _button(context: context, label: 'Bahasa', image: loadImageAssetPNG(path: iconLanguage),
-                  onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
-              ColumnDivider(),
-              _button(context: context, label: 'Notifikasi', image: loadImageAssetPNG(path: iconNotification),
-                  onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
-            ],
-          ),
+  Widget _buildButtonLayout(BuildContext context){
+    return Expanded(
+      child: SizedBox(
+        child: ListView(
+          physics: ClampingScrollPhysics(),
+          children: [
+            Container(
+              padding: EdgeInsets.all(paddingMid),
+              decoration: BoxDecoration(color: ThemeColors.secondaryRevert(context), borderRadius: BorderRadius.circular(radiusTriangle)),
+              child: Column(
+                children: [
+                  _button(context: context, label: 'Bahasa', image: loadImageAssetSVG(path: iconLanguage),
+                      onTap: () async => await startScreenSwipe(context, EditProfileScreen())),
+                  ColumnDivider(),
+                  _button(context: context, label: 'Notifikasi', image: loadImageAssetSVG(path: iconNotification),
+                      onTap: () async => await startScreenSwipe(context, MainSettingScreen())),
+                ],
+              ),
+            ),
+            ColumnDivider(space: spaceMid),
+            Container(
+              padding: EdgeInsets.all(paddingMid),
+              decoration: BoxDecoration(color: ThemeColors.secondaryRevert(context), borderRadius: BorderRadius.circular(radiusTriangle)),
+              child: Column(
+                children: [
+                  _button(context: context, label: 'Seputar Gercepin', image: loadImageAssetSVG(path: iconAbout),
+                      onTap: () async => await startScreenSwipe(context, MainSettingScreen())),
+                  ColumnDivider(),
+                  _button(context: context, label: 'Bantuan dan Laporan', image: loadImageAssetSVG(path: iconHelp),
+                      onTap: () async => await startScreenSwipe(context, MainSettingScreen())),
+                  ColumnDivider(),
+                  _button(context: context, label: 'Pengaturan', image: loadImageAssetSVG(path: iconMainDashboard),
+                      onTap: () async => await startScreenSwipe(context, MainSettingScreen())),
+                ],
+              ),
+            ),
+          ],
         ),
-        ColumnDivider(space: spaceMid),
-        Container(
-          padding: EdgeInsets.all(paddingMid),
-          decoration: BoxDecoration(color: ThemeColors.secondaryRevert(context), borderRadius: BorderRadius.circular(radiusTriangle)),
-          child: Column(
-            children: [
-              _button(context: context, label: 'Seputar Gercepin', image: loadImageAssetPNG(path: iconAbout),
-                  onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
-              ColumnDivider(),
-              _button(context: context, label: 'Bantuan dan Laporan', image: loadImageAssetPNG(path: iconHelp),
-                  onTap: () async => await startScreenSwipe(context, DetailProfileScreen())),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 
-  Widget _button({required BuildContext context, required String label, required Image image, required VoidCallback onTap}){
+  Widget _button({required BuildContext context, required String label, required Widget image, required VoidCallback onTap}){
     return AnimateProgressButton(
       labelButton: label,
-      labelButtonStyle: TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context)),
+      labelButtonStyle: TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context), fontWeight: FontWeight.bold),
       textAlign: TextAlign.start,
       containerColor: Colors.transparent,
       height: heightMid,

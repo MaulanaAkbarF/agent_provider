@@ -3,6 +3,7 @@
 // import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'dart:convert';
 
+import 'package:agent/core/models/_global_widget_model/geocoding.dart';
 import 'package:agent/core/utilities/extensions/primitive_data/string_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,9 +15,11 @@ import '../../../utilities/functions/logger_func.dart';
 
 class UserProvider extends ChangeNotifier {
   UserAuth? _auth;
+  GeocodingModel _userAddressSelected = GeocodingModel(latitude: 0, longitude: 0);
   String _phoneNumber = '';
 
   UserAuth? get auth => _auth;
+  GeocodingModel get userAddressSelected => _userAddressSelected;
   User? get user => _auth?.user;
   String get phoneNumber => _phoneNumber;
   bool get isLoggedIn => _auth != null;
@@ -75,6 +78,13 @@ class UserProvider extends ChangeNotifier {
     if (_auth == null) clog('Auth Kosong!');
     if (_auth != null) clog('Berhasil menetapkan UserAuth!\n${jsonEncode(_auth?.toJson()).convertToJsonStyle}');
     notifyListeners();
+  }
+
+  Future<void> setUserAddressSelected(GeocodingModel data) async {
+    if (data.address != null || data.address != 'Indonesia'){
+      _userAddressSelected = data;
+      notifyListeners();
+    }
   }
 
   /// Fungsi ketika pengguna melakukan logout

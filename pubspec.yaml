@@ -62,6 +62,7 @@ dependencies:
   flutter_typeahead:
   flutter_markdown:
   dropdown_button2:
+  flutter_html:
 
   # UTILITIES
   # default, dont removed!

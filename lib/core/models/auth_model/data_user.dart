@@ -24,6 +24,9 @@ class User {
   String? email;
   String? gender;
   String phoneNumber;
+  String? address;
+  String? latitude;
+  String? longitude;
   String? avatarUrl;
 
   User({
@@ -32,6 +35,9 @@ class User {
     this.email,
     this.gender,
     required this.phoneNumber,
+    this.address,
+    this.latitude,
+    this.longitude,
     this.avatarUrl,
   });
 
@@ -41,6 +47,9 @@ class User {
     email: json["email"],
     gender: json["gender"],
     phoneNumber: json["phone_number"]?.toString() ?? "0",
+    address: json["address"],
+    latitude: json["location_lat"],
+    longitude: json["location_lng"],
     avatarUrl: json["avatar_url"],
   );
 
@@ -50,6 +59,9 @@ class User {
     "email": email,
     "gender": gender,
     "phone_number": phoneNumber,
+    "address": address,
+    "location_lat": latitude,
+    "location_lng": longitude,
     "avatar_url": avatarUrl,
   };
 }

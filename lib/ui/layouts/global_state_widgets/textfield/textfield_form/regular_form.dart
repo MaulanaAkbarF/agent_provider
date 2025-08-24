@@ -105,7 +105,7 @@ class RegularTextField extends StatelessWidget {
         ),
       ));
       }
-      widgets.add(const SizedBox(height: 5));
+      widgets.add(const ColumnDivider(space: spaceNear));
     }
 
     List<TextInputFormatter> addInputFormatted = inputFormatters?.isNotEmpty ?? false ? List<TextInputFormatter>.from(inputFormatters!) : [];
@@ -120,12 +120,12 @@ class RegularTextField extends StatelessWidget {
       Container(
         margin: margin,
         decoration: BoxDecoration(
-          color: containerColor?.withValues(alpha: containerOpacity ?? 1.0) ?? ThemeColors.secondary(context),
+          color: containerColor?.withValues(alpha: containerOpacity ?? 1.0) ?? ThemeColors.secondaryLowContrastRevert(context),
           borderRadius: borderRadius ?? BorderRadius.circular(radiusTriangle),
-          border: Border.all(
-            color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context),
-            width: borderSize ?? 2,
-          ),
+          // border: Border.all(
+          //   color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context),
+          //   width: borderSize ?? 2,
+          // ),
           boxShadow: shadowColor == null ? [] : [
             BoxShadow(
               color: shadowColor!.withValues(alpha: .1),
@@ -139,7 +139,7 @@ class RegularTextField extends StatelessWidget {
             colorScheme: Theme.of(context).colorScheme,
           ),
           child: Padding(
-            padding: prefixIcon != null ? marginTextField ?? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 16),
+            padding: marginTextField ?? EdgeInsets.zero,
             child: TextFormField(
               controller: controller,
               keyboardType: keyboardType,
@@ -172,20 +172,30 @@ class RegularTextField extends StatelessWidget {
                 hintStyle: hintStyle ?? TextStyles.medium(context).copyWith(color: ThemeColors.grey(context)),
                 label: labelTextField != null ? Text(labelTextField ?? "", style: labelStyle ??
                     TextStyles.medium(context).copyWith(color: ThemeColors.greyHighContrast(context))) : null,
-                errorStyle: TextStyles.medium(context).copyWith(color: ThemeColors.surface(context), fontWeight: FontWeight.bold),
+                errorStyle: TextStyles.medium(context).copyWith(color: ThemeColors.danger(context), fontWeight: FontWeight.bold),
+                errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: ThemeColors.danger(context), width: borderSize ?? 2),
+                    borderRadius: borderRadius ?? BorderRadius.circular(radiusTriangle)
+                ),
                 prefixIcon: prefixIcon != null ? GestureDetector(onTap: prefixOnTap, child: prefixIcon,) : null,
                 suffixIcon: suffixIcon != null ? GestureDetector(onTap: suffixOnTap, child: suffixIcon,) : null,
                 border: isOnlyBottomBorder != null && isOnlyBottomBorder! ? UnderlineInputBorder(
-                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? Colors.transparent, width: borderSize ?? 1),
+                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context), width: borderSize ?? 1),
                 ) : InputBorder.none,
                 enabledBorder: isOnlyBottomBorder != null && isOnlyBottomBorder! ? UnderlineInputBorder(
-                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? Colors.transparent, width: borderSize ?? 1),
-                ) : InputBorder.none,
+                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context), width: borderSize ?? 1),
+                ) : OutlineInputBorder(
+                    borderSide: BorderSide(color: ThemeColors.secondaryRevert(context), width: borderSize ?? 2),
+                    borderRadius: borderRadius ?? BorderRadius.circular(radiusTriangle)
+                ),
                 focusedBorder: isOnlyBottomBorder != null && isOnlyBottomBorder! ? UnderlineInputBorder(
-                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? Colors.transparent, width: borderSize ?? 1),
-                ) : InputBorder.none,
+                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context), width: borderSize ?? 1),
+                ) : OutlineInputBorder(
+                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context), width: borderSize ?? 2),
+                  borderRadius: borderRadius ?? BorderRadius.circular(radiusTriangle)
+                ),
                 disabledBorder: isOnlyBottomBorder != null && isOnlyBottomBorder! ? UnderlineInputBorder(
-                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? Colors.transparent, width: borderSize ?? 1),
+                  borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context), width: borderSize ?? 1),
                 ) : InputBorder.none,
               ),
             ),

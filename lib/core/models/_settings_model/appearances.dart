@@ -3,6 +3,7 @@ import '../../constant_values/_setting_value/appearance_values.dart';
 class AppearancesModelSetting {
   final String fontType;
   final ListFontSize fontSize;
+  final ListPreferredUseMaterial3 preferredUseMaterial3;
   final ListPreferredOrientation preferredOrientation;
   final ListSafeAreaMode isSafeArea;
   final ListTabletMode isTabletMode;
@@ -12,6 +13,7 @@ class AppearancesModelSetting {
   AppearancesModelSetting({
     required this.fontType,
     required this.fontSize,
+    required this.preferredUseMaterial3,
     required this.preferredOrientation,
     required this.isSafeArea,
     required this.isTabletMode,
@@ -23,6 +25,7 @@ class AppearancesModelSetting {
     return {
       'fontType': fontType,
       'fontSize': fontSize.name,
+      'preferredUseMaterial3': preferredUseMaterial3.name,
       'preferredOrientation': preferredOrientation.name,
       'isSafeArea': isSafeArea.name,
       'isTabletMode': isTabletMode.name,
@@ -35,6 +38,7 @@ class AppearancesModelSetting {
     return AppearancesModelSetting(
       fontType: json['fontType'] ?? '',
       fontSize: ListFontSize.values.firstWhere((e) => e.name == json['fontSize'], orElse: () => ListFontSize.medium),
+      preferredUseMaterial3: ListPreferredUseMaterial3.values.firstWhere((e) => e.name == json['preferredUseMaterial3'], orElse: () => ListPreferredUseMaterial3.active),
       preferredOrientation: ListPreferredOrientation.values.firstWhere((e) => e.name == json['preferredOrientation'], orElse: () => ListPreferredOrientation.active),
       isSafeArea: ListSafeAreaMode.values.firstWhere((e) => e.name == json['isSafeArea'], orElse: () => ListSafeAreaMode.active),
       isTabletMode: ListTabletMode.values.firstWhere((e) => e.name == json['isTabletMode'], orElse: () => ListTabletMode.deactive),

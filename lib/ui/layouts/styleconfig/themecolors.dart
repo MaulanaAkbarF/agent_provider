@@ -87,6 +87,7 @@ class ThemeColors {
   static Color primary(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Color(0xFFAF69EE) : Color(0xFFAF69EE);
   static Color secondary(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Color(0xFF2E0948) : Color(0xFFEADDFB);
   static Color secondaryRevert(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Color(0xFFEADDFB) : Color(0xFF2E0948);
+  static Color secondaryLowContrastRevert(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Color(0xFFFDF1FF) : Color(0xFF1F0530);
 
   // Info Colors
   static Color infoVeryLowContrast(BuildContext context) => Theme.of(context).brightness == Brightness.light ? Color(0xFFADFFFE) : Color(0xFF011919);

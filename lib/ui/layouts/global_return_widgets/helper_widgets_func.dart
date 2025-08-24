@@ -26,7 +26,7 @@ Widget onValidationWarning(BuildContext context, FormFieldState form, String mes
       children: [
         Icon(Icons.error, size: 16, color: ThemeColors.red(context)),
         const SizedBox(width: 3),
-        Expanded(child: cText(context, message)),
+        Expanded(child: cText(context, message, style: TextStyles.medium(context).copyWith(color: ThemeColors.danger(context)))),
       ],
     ),
   );

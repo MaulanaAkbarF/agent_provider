@@ -1,3 +1,5 @@
+import '_constant_text_values.dart';
+
 final List<Map<String, String>> onboardingData = [
   {
     'title': 'Peluang Besar,\nSemua Ada di Sini',
@@ -115,4 +117,12 @@ List<Map<String, dynamic>> countryDataList = [
   {"id": 84, "name": "Venezuela", "iso_code": "VE", "dial_code": "+58", "flag_emoji": "🇻🇪"},
   {"id": 85, "name": "Vietnam", "iso_code": "VN", "dial_code": "+84", "flag_emoji": "🇻🇳"},
   {"id": 86, "name": "Yemen", "iso_code": "YE", "dial_code": "+967", "flag_emoji": "🇾🇪"},
+];
+
+List<String> listTermsOfServices = [
+  '''$appNameText mengumpulkan data pribadi yang bertujuan untuk memproses pendaftaran donor darah dan tujuan lainnya **sesuai dengan peraturan perundang-undangan yang berlaku**.''',
+  '''$appNameText menggunakan data pribadi yang diperoleh dan dikumpulkan dari data pengguna untuk digunakan dalam proses **pelayanan pesanan**, meliputi:
+  * Nama Pengguna
+  * Email Pengguna''',
+  '''$appNameText menyimpan data Anda pada database kami yang dienkripsi berlapis-lapis untuk memastikan data Anda aman dari serangan''',
 ];

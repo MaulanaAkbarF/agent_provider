@@ -18,6 +18,7 @@ import '../layouts/global_state_widgets/button/button_progress/animation_progres
 import '../layouts/global_state_widgets/custom_scaffold/custom_appbar.dart';
 import '../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
 import '../layouts/global_state_widgets/dialog/dialog_button/dialog_one_button.dart';
+import '../layouts/global_state_widgets/divider/custom_divider.dart';
 import '../layouts/styleconfig/textstyle.dart';
 import '../layouts/styleconfig/themecolors.dart';
 import 'appearance_setting_screen.dart';
@@ -83,50 +84,67 @@ class MainSettingScreen extends StatelessWidget {
     return ListView(
       shrinkWrap: true,
       children: [
-        _button(context: context, label: 'Pengaturan Akun', icon: Icon(Icons.person, size: iconBtnSmall, color: ThemeColors.green(context)),
-          onTap: () async => await Future.delayed(Duration(seconds: 3))),
-        _button(context: context, label: 'Tampilan', icon: Icon(Icons.palette, size: iconBtnSmall, color: ThemeColors.yellow(context)),
-            onTap: () => startScreenSwipe(context, AppearanceSettingScreen())),
-        _button(context: context, label: 'Preferensi', icon: Icon(Icons.tune, size: iconBtnSmall, color: ThemeColors.red(context)),
-            onTap: () => startScreenSwipe(context, PreferenceSettingScreen())),
-        _button(context: context, label: 'Perizinan', icon: Icon(Icons.security, size: iconBtnSmall, color: ThemeColors.blue(context)),
-            onTap: () => startScreenSwipe(context, PermissionSettingScreen())),
-        Consumer<DevModeProvider>(
-          builder: (context, provider, child) {
-            return provider.isActive ? Column(
-              children: [
-                _button(context: context, label: 'Log Aplikasi', icon: Icon(Icons.history, size: iconBtnSmall, color: ThemeColors.grey(context)),
-                  onTap: () async => await SqfliteLogAppServices.getDatabaseSize()
-                    .then((value) {
-                      LogAppSettingProvider.read(context).initialize();
-                      startScreenSwipe(context, LogAppSettingScreen(dbSize: value.$1));
-                    }
-                  ),
-                ),
-                _button(context: context, label: 'Pengaturan Developer', icon: Icon(Icons.code, size: iconBtnSmall, color: ThemeColors.blueLowContrast(context)),
-                  onTap: () {
-                    DevModeProvider.read(context).initData();
-                    startScreenSwipe(context, DevSettingScreen());
-                  }
-                ),
-              ],
-            ) : const SizedBox();
-          },
+        Container(
+          padding: EdgeInsets.all(paddingMid),
+          decoration: BoxDecoration(color: ThemeColors.secondaryRevert(context), borderRadius: BorderRadius.circular(radiusTriangle)),
+          child: Column(
+            children: [
+              _button(context: context, label: 'Pengaturan Akun', icon: Icon(Icons.person, size: iconBtnSmall, color: ThemeColors.green(context)),
+                  onTap: () async => await Future.delayed(Duration(seconds: 3))),
+              ColumnDivider(),
+              _button(context: context, label: 'Tampilan', icon: Icon(Icons.palette, size: iconBtnSmall, color: ThemeColors.yellow(context)),
+                  onTap: () => startScreenSwipe(context, AppearanceSettingScreen())),
+              ColumnDivider(),
+              _button(context: context, label: 'Preferensi', icon: Icon(Icons.tune, size: iconBtnSmall, color: ThemeColors.red(context)),
+                  onTap: () => startScreenSwipe(context, PreferenceSettingScreen())),
+              ColumnDivider(),
+              _button(context: context, label: 'Perizinan', icon: Icon(Icons.security, size: iconBtnSmall, color: ThemeColors.blue(context)),
+                  onTap: () => startScreenSwipe(context, PermissionSettingScreen())),
+              ColumnDivider(),
+              Consumer<DevModeProvider>(
+                builder: (context, provider, child) {
+                  return provider.isActive ? Column(
+                    children: [
+                      _button(context: context, label: 'Log Aplikasi', icon: Icon(Icons.history, size: iconBtnSmall, color: ThemeColors.grey(context)),
+                        onTap: () async => await SqfliteLogAppServices.getDatabaseSize()
+                            .then((value) {
+                          LogAppSettingProvider.read(context).initialize();
+                          startScreenSwipe(context, LogAppSettingScreen(dbSize: value.$1));
+                        }
+                        ),
+                      ),
+                      ColumnDivider(),
+                      _button(context: context, label: 'Pengaturan Developer', icon: Icon(Icons.code, size: iconBtnSmall, color: ThemeColors.blueLowContrast(context)),
+                          onTap: () {
+                            DevModeProvider.read(context).initData();
+                            startScreenSwipe(context, DevSettingScreen());
+                          }
+                      ),
+                      ColumnDivider(),
+                    ],
+                  ) : const SizedBox();
+                },
+              ),
+              _button(context: context, label: 'Konfigurasi Aplikasi', icon: Icon(Icons.settings, size: iconBtnSmall, color: ThemeColors.grey(context)),
+                  onTap: () async => await openAppSettings()),
+            ],
+          ),
         ),
-        _button(context: context, label: 'Konfigurasi Aplikasi', icon: Icon(Icons.settings, size: iconBtnSmall, color: ThemeColors.grey(context)),
-            onTap: () async => await openAppSettings()),
       ],
     );
   }
 
-  Widget _button({required BuildContext context, required String label, required Icon icon, required VoidCallback onTap, Function(bool)? onHover}){
+  Widget _button({required BuildContext context, required String label, required Icon icon, required VoidCallback onTap}){
     return AnimateProgressButton(
       labelButton: label,
-      labelButtonStyle: TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context)),
+      labelButtonStyle: TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context), fontWeight: FontWeight.bold),
+      textAlign: TextAlign.start,
       containerColor: Colors.transparent,
+      height: heightMid,
       icon: icon,
       useArrow: true,
-      onHover: onHover,
+      arrowColor: ThemeColors.primary(context),
+      useShadow: false,
       onTap: onTap
     );
   }

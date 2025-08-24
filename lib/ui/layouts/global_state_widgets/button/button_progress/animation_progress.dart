@@ -35,7 +35,7 @@ class AnimateProgressButton extends StatefulWidget {
   final TextAlign? textAlign;
   final TextStyle? labelButtonStyle;
   final Icon? icon;
-  final Image? image;
+  final Widget? image;
   final bool? fitButton;
   final bool? useArrow;
   final bool? useInkWell;
@@ -204,12 +204,13 @@ class AnimateProgressButtonState extends State<AnimateProgressButton> with Singl
                           );
                         },
                         child: widget.image != null
-                            ? SizedBox(
-                                width: widget.height != null ? widget.height! * 0.75 : 30,
-                                height: widget.height != null ? widget.height! * 0.75 : 30,
-                                child: widget.image,
-                              ) : (widget.icon ?? SizedBox()),
+                          ? SizedBox(
+                              width: widget.height != null ? widget.height! * 0.75 : 30,
+                              height: widget.height != null ? widget.height! * 0.75 : 30,
+                              child: widget.image,
+                            ) : (widget.icon ?? SizedBox()),
                       ),
+                    if (widget.image != null || widget.icon != null) RowDivider(),
                     if (!_loading && widget.icon != null || !_loading && widget.image != null) RowDivider(),
 
                     if (widget.useArrow != null && widget.useArrow!)
@@ -230,7 +231,7 @@ class AnimateProgressButtonState extends State<AnimateProgressButton> with Singl
                                         context,
                                         _loading ? widget.labelProgress ?? 'Memproses' : widget.labelButton ?? 'Konfirmasi',
                                         align: widget.textAlign ?? TextAlign.center,
-                                        maxLines: 2,
+                                        maxLines: 1,
                                         style: widget.labelButtonStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -251,12 +252,15 @@ class AnimateProgressButtonState extends State<AnimateProgressButton> with Singl
                             opacity: _opacityAnimation.value,
                             child: Transform.translate(
                               offset: _positionAnimation.value,
-                              child: cText(
-                                context,
-                                _loading ? widget.labelProgress ?? 'Memproses' : widget.labelButton ?? 'Konfirmasi',
-                                align: widget.textAlign,
-                                maxLines: 2,
-                                style: widget.labelButtonStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                              child: Align(
+                                alignment: widget.textAlign == TextAlign.start ? Alignment.centerLeft : Alignment.center,
+                                child: cText(
+                                  context,
+                                  _loading ? widget.labelProgress ?? 'Memproses' : widget.labelButton ?? 'Konfirmasi',
+                                  align: widget.textAlign,
+                                  maxLines: 1,
+                                  style: widget.labelButtonStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           );

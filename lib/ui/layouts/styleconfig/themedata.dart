@@ -12,7 +12,7 @@ ThemeData globalThemeData(BuildContext context, AppearanceSettingProvider provid
   Color divideColor = provider.brightnessTheme == Brightness.light ? ThemeColors.greyHighContrast(context) : ThemeColors.greyLowContrast(context);
 
   return ThemeData(
-    useMaterial3: false,
+    useMaterial3: provider.preferredUseMaterial3.condition,
     brightness: provider.brightnessTheme,
     dividerColor: divideColor,
     textTheme: TextTheme(

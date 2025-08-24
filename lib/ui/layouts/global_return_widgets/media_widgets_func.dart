@@ -92,7 +92,7 @@ Widget loadCircleImage({
     child: fileImage == null && imageUrl == null
       ? (imageAssetPath != null
       ? loadImageAssetPNG(path: imageAssetPath, width: radius * 1.8, height: radius * 1.8)
-        : Icon(Icons.person, size: iconBtnMid, color: ThemeColors.surface(context)))
-        : Icon(Icons.person_2, size: iconBtnMid, color: ThemeColors.surface(context)),
+        : Icon(Icons.person, size: radius, color: ThemeColors.surface(context)))
+        : Icon(Icons.person_2, size: radius, color: ThemeColors.surface(context)),
   );
 }
