@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:agent/core/constant_values/assets_values.dart';
+import 'package:agent/core/models/_global_widget_model/geocoding.dart';
+import 'package:agent/core/services/http_services/endpoints/auth/auth_services.dart';
 import 'package:agent/core/utilities/functions/media_func.dart';
 import 'package:agent/core/utilities/functions/page_routes_func.dart';
 import 'package:agent/ui/layouts/global_state_widgets/selected_item/list_radio_button.dart';
@@ -10,10 +12,10 @@ import 'package:provider/provider.dart';
 
 import '../../../core/constant_values/global_values.dart';
 import '../../../core/models/_global_widget_model/country_data.dart';
+import '../../../core/models/auth_model/data_user.dart';
 import '../../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../../core/state_management/providers/auth/user_provider.dart';
 import '../../../core/utilities/functions/input_func.dart';
-import '../../../core/utilities/functions/logger_func.dart';
 import '../../../core/utilities/functions/media_query_func.dart';
 import '../../layouts/global_return_widgets/media_widgets_func.dart';
 import '../../layouts/global_state_widgets/custom_scaffold/custom_appbar.dart';
@@ -38,10 +40,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late final TextEditingController tecNama;
   late final TextEditingController tecNomor;
   late final TextEditingController tecEmail;
+  String? gender;
+  int? initialIndex;
 
   CountryData? data = getCountryDataById(1);
   CountryData? dataSaved = getCountryDataById(1);
-  int input = 0;
+  int input = -1;
   XFile? takePhoto;
   bool setNewPhoto = false;
 
@@ -50,6 +54,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     tecNama = TextEditingController(text: UserProvider.read(context).user?.name ?? '');
     tecNomor = TextEditingController(text: UserProvider.read(context).user?.phoneNumber ?? '');
     tecEmail = TextEditingController(text: UserProvider.read(context).user?.email ?? '');
+    if (UserProvider.read(context).user?.gender != null) {
+      if (UserProvider.read(context).user?.gender == 'Male'){
+        gender = 'Laki-laki';
+        initialIndex = 0;
+      } else {
+        gender = 'Perempuan';
+        initialIndex = 1;
+      }
+    }
     super.initState();
   }
 
@@ -78,12 +91,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         backgroundColor: ThemeColors.onSurface(context),
         showBackButton: true,
         labelButton: 'Simpan',
-        onTap: (){
+        onTap: () async {
           if (_formEditProfileScreen.currentState!.validate()){
+            User? resp = await AuthServiceHttp(context).updateUserProfile(
+              name: tecNama.text,
+              email: tecEmail.text,
+              gender: gender,
+              phoneNumber: tecNomor.text,
+              photo: takePhoto != null ? File(takePhoto?.path ?? '') : null,
+              address: UserProvider.read(context).userAddressSelected.address != null
+                ? UserProvider.read(context).userAddressSelected
+                : GeocodingModel(
+                  latitude: double.parse(UserProvider.read(context).user?.latitude ?? '0'),
+                  longitude: double.parse(UserProvider.read(context).user?.longitude ?? '0'),
+                address: UserProvider.read(context).user?.address
+              )
+            );
 
+            if (resp == null) return;
+            UserProvider.read(context).updateUserData(resp);
+            Navigator.pop(context);
           }
-        }
+        },
       ),
+      onPopInvokedWithResult: (pop, res) => UserProvider.read(context).setUserAddressSelectedNull(),
       body: _bodyWidget(context)
     );
   }
@@ -122,8 +153,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   alignment: Alignment.center,
                   children: [
                     loadCircleImage(context: context,
-                        fileImage: setNewPhoto ? File(takePhoto!.path) : null,
-                        imageAssetPath: setNewPhoto ? null : avatarDummy,
+                      fileImage: UserProvider.read(context).user?.avatarUrl != null
+                        ? File(UserProvider.read(context).user?.avatarUrl ?? '')
+                        : setNewPhoto ? File(takePhoto!.path) : null, imageAssetPath: setNewPhoto ? null : avatarDummy,
                         radius: 80),
                     Positioned(
                       bottom: 10,
@@ -147,12 +179,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             labelText: 'Nama Lengkap',
             labelStyle: TextStyles.semiLarge(context).copyWith(fontWeight: FontWeight.bold),
             hintText: UserProvider.read(context).user?.name ?? 'Ketik Nama Kamu',
-            keyboardType: TextInputType.number,
-            minInput: 8,
+            minInput: 4,
           ),
           ColumnDivider(space: spaceMid),
           cText(context, 'Jenis Kelamin', style: TextStyles.semiLarge(context).copyWith(fontWeight: FontWeight.bold)),
-          CustomRadioButtonGroup(listRadioItem: ['Laki-laki', 'Perempuan'], onSelected: (value) => clog(value)),
+          CustomRadioButtonGroup(listRadioItem: ['Laki-laki', 'Perempuan'], selectedIndex: initialIndex, onSelected: (value) => gender = value),
           ColumnDivider(space: spaceNear),
           cText(context, 'Nomor Telepon', style: TextStyles.semiLarge(context).copyWith(fontWeight: FontWeight.bold)),
           ColumnDivider(),
@@ -205,7 +236,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             labelText: 'Email',
             labelStyle: TextStyles.semiLarge(context).copyWith(fontWeight: FontWeight.bold),
             hintText: UserProvider.read(context).user?.email ?? 'Ketik Email Kamu',
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.emailAddress,
             minInput: 8,
           ),
           ColumnDivider(space: spaceMid),

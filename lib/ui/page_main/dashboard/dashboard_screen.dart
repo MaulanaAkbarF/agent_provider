@@ -9,7 +9,9 @@ import 'package:provider/provider.dart';
 
 import '../../../core/constant_values/assets_values.dart';
 import '../../../core/constant_values/global_values.dart';
+import '../../../core/state_management/providers/_global_widget/location_provider.dart';
 import '../../../core/state_management/providers/_settings/appearance_provider.dart';
+import '../../../core/state_management/providers/all_services/all_services_list_provider.dart';
 import '../../../core/state_management/providers/auth/user_provider.dart';
 import '../../../core/utilities/functions/logger_func.dart';
 import '../../../core/utilities/functions/media_query_func.dart';
@@ -21,6 +23,11 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Provider.of<ListServicesListProvider>(context, listen: false).getListServicesData(context, false);
+      await Provider.of<LocationProvider>(context, listen: false).getCurrentUserLocation(context);
+    });
+
     return Consumer<AppearanceSettingProvider>(
       builder: (context, provider, child) {
         if (provider.isTabletMode.condition){

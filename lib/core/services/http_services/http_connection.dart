@@ -85,11 +85,11 @@ abstract class HttpConnection {
   Map<String, String>? _preRequestHeaders(Map<String, String>? headers) {
     var userProvider = UserProvider.read(context);
     /// Jika terdapat access token, header akan selalu/wajib ditambahkan Bearer Token
-    if (userProvider.auth?.accessToken != null) {
+    if (userProvider.auth?.token != null) {
       if (headers != null) {
-        headers.addEntries([MapEntry("Authorization", "Bearer ${userProvider.auth?.accessToken}")]);
+        headers.addEntries([MapEntry("Authorization", "Bearer ${userProvider.auth?.token}")]);
       } else {
-        headers = {"Authorization": "Bearer ${userProvider.auth?.accessToken}"};
+        headers = {"Authorization": "Bearer ${userProvider.auth?.token}"};
       }
     }
     return headers;

@@ -39,6 +39,7 @@ const String iconLanguage = 'assets/icon/language.svg';
 const String iconNotification = 'assets/icon/notification.svg';
 const String iconHelp = 'assets/icon/help.svg';
 const String iconAbout = 'assets/icon/about.svg';
+const String iconMaps = 'assets/icon/icon_maps.svg';
 
 
 /// Nilai untuk mengatur path Lottie Animation

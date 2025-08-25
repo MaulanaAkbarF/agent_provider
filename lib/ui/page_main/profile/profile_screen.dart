@@ -2,8 +2,10 @@ import 'package:agent/ui/page_setting/_main_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/constant_values/_constant_text_values.dart';
 import '../../../core/constant_values/assets_values.dart';
 import '../../../core/constant_values/global_values.dart';
+import '../../../core/state_management/providers/_global_widget/main_navbar_provider.dart';
 import '../../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../../core/state_management/providers/auth/user_provider.dart';
 import '../../../core/utilities/functions/media_query_func.dart';
@@ -11,9 +13,11 @@ import '../../../core/utilities/functions/page_routes_func.dart';
 import '../../layouts/global_return_widgets/media_widgets_func.dart';
 import '../../layouts/global_state_widgets/button/button_progress/animation_progress.dart';
 import '../../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
+import '../../layouts/global_state_widgets/dialog/dialog_button/dialog_two_button.dart';
 import '../../layouts/global_state_widgets/divider/custom_divider.dart';
 import '../../layouts/styleconfig/textstyle.dart';
 import '../../layouts/styleconfig/themecolors.dart';
+import '../../page_auth/login_screen.dart';
 import 'detail_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -148,6 +152,23 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
+            ColumnDivider(space: spaceMid),
+            AnimateProgressButton(
+              labelButton: 'Keluar',
+              labelButtonStyle: TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context), fontWeight: FontWeight.bold),
+              containerColor: ThemeColors.danger(context),
+              useShadow: false,
+              onTap: () {
+                showDialog(context: context, builder: (context) => DialogTwoButton(
+                    header: 'Logout', description: '\nAnda yakin ingin keluar dari sesi Anda saat ini?\n', acceptedOnTap: () async {
+                  await UserProvider.read(context).logout(context);
+                  MainNavbarProvider.read(context).changePageIndex(0);
+                  startScreenRemoveAll(context, LoginScreen());
+                }));
+              }
+            ),
+            ColumnDivider(space: spaceNear),
+            cText(context, appVersionText, align: TextAlign.center, style: TextStyles.verySmall(context))
           ],
         ),
       ),

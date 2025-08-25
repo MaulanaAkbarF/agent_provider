@@ -1,9 +1,11 @@
+import 'package:agent/ui/layouts/global_return_widgets/media_widgets_func.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constant_values/_setting_value/log_app_values.dart';
+import '../../../core/constant_values/assets_values.dart';
 import '../../../core/constant_values/enum_values.dart';
 import '../../../core/constant_values/global_values.dart';
 import '../../../core/state_management/providers/_global_widget/google_maps_provider.dart';
@@ -18,7 +20,6 @@ import '../../layouts/global_return_widgets/helper_widgets_func.dart';
 import '../../layouts/global_state_widgets/button/button_progress/animation_progress.dart';
 import '../../layouts/global_state_widgets/custom_scaffold/custom_appbar.dart';
 import '../../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
-import '../../layouts/global_state_widgets/dialog/dialog_action/custom_dialog.dart';
 import '../../layouts/global_state_widgets/divider/custom_divider.dart';
 import '../../layouts/global_state_widgets/modal_bottom_sheet/regular_bottom_sheet.dart';
 import '../../layouts/global_state_widgets/textfield/textfield_form/regular_form.dart';
@@ -145,7 +146,8 @@ class MapsUpdateUserLocation extends StatelessWidget {
               ),
               _latLongInfo(context, locationProvider, provider.mapType == MapType.satellite ? true : false),
               if (provider.mapState == GoogleMapsState.loading || provider.mapState == GoogleMapsState.success || provider.mapState == GoogleMapsState.failed)
-                Center(child: Padding(padding: EdgeInsets.only(bottom: getMediaQueryHeight(context) * .15), child: Icon(Icons.location_on, color: ThemeColors.red(context), size: iconBtnBig))),
+                Center(child: Padding(padding: EdgeInsets.only(bottom: getMediaQueryHeight(context) * .165),
+                    child: loadImageAssetSVG(path: iconMaps, width: 50, height: 50))),
               _onLoadingLayout(context, provider.mapState.text, provider),
               if (provider.mapState == GoogleMapsState.success || provider.mapState == GoogleMapsState.failed) _onAddressLayout(context, provider, locationProvider)
             ],

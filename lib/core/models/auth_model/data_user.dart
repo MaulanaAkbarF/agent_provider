@@ -1,19 +1,19 @@
 class UserAuth {
-  String? accessToken;
+  String? token;
   User user;
 
   UserAuth({
-    this.accessToken,
+    this.token,
     required this.user,
   });
 
   factory UserAuth.fromJson(Map<String, dynamic> json) => UserAuth(
-    accessToken: json["token"],
+    token: json["token"],
     user: User.fromJson(json["user"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "token": accessToken,
+    "token": token,
     "user": user.toJson(),
   };
 }

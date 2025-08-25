@@ -76,6 +76,13 @@ extension StringManipulator on String {
     return replaceAll('"', '');
   }
 
+  String? get genderFormatted {
+    clog('Gender Extension Selected: $this');
+    if (this == 'Laki-laki') return 'Male';
+    if (this == 'Perempuan') return 'Female';
+    return null;
+  }
+
   /// Mengubah string ke format tanggal yang enak dibaca
   String formattedDate({required BuildContext context, bool? shortDate}) {
     DateTime? dateTime;

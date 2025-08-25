@@ -80,7 +80,7 @@ class CustomRadioButtonGroupState extends State<CustomRadioButtonGroup> {
       children: List.generate(widget.listRadioItem.length, (index) {
         return RadioListTile<int>(
           contentPadding: EdgeInsets.zero,
-          activeColor: ThemeColors.blueLowContrast(context),
+          activeColor: ThemeColors.primary(context),
           title: cText(context, widget.listRadioItem[index], maxLines: 5, style: TextStyles.semiMedium(context).copyWith(fontWeight: FontWeight.normal, color: ThemeColors.surface(context))),
           value: index,
           groupValue: _selectedIndex,
@@ -118,7 +118,7 @@ class CustomRadioButtonGroupState extends State<CustomRadioButtonGroup> {
     return List.generate(end - start, (index) => Expanded(
         child: RadioListTile<int>(
           contentPadding: EdgeInsets.zero,
-          activeColor: ThemeColors.blueLowContrast(context),
+          activeColor: ThemeColors.primary(context),
           title: cText(context, widget.listRadioItem[start + index], maxLines: 5, style: TextStyles.semiMedium(context).copyWith(fontWeight: FontWeight.normal, color: ThemeColors.surface(context))),
           value: start + index,
           groupValue: _selectedIndex,

@@ -15,7 +15,7 @@ import '../layouts/global_state_widgets/divider/custom_divider.dart';
 import '../layouts/global_state_widgets/textfield/textfield_form/regular_form.dart';
 import '../layouts/styleconfig/textstyle.dart';
 import '../layouts/styleconfig/themecolors.dart';
-import '../page_main/_bottom_navbar/main_navbar_custom.dart';
+import '../page_main/_global_pages/main_navbar_custom.dart';
 
 class VerifyScreen extends StatefulWidget {
   final String nomor;

@@ -14,6 +14,7 @@ SliverAppBar sliverAppBarWidget({
   required String imagePath,
   String? title,
   bool? showAppLogo,
+  Color? titleColor,
   Color? backgroundColor,
   Widget? leading,
   List<Widget>? actions,
@@ -32,8 +33,11 @@ SliverAppBar sliverAppBarWidget({
       )
     ),
     title: showAppLogo != null && showAppLogo ? loadDefaultAppLogoPNG() : title != null
-        ? cText(context, title, maxLines: 1,
-        style: TextStyles.large(context).copyWith(fontWeight: FontWeight.bold, color: ThemeColors.surface(context))) : null,
+        ? Align(
+      alignment: Alignment.centerLeft,
+          child: cText(context, title, maxLines: 1,
+          style: TextStyles.large(context).copyWith(fontWeight: FontWeight.bold, color: titleColor ?? ThemeColors.surface(context))),
+        ) : null,
     actions: actions,
     flexibleSpace: imagePath.contains('http')
         ? loadImageNetwork(imageUrl: imagePath, height: 300)
@@ -52,6 +56,7 @@ AppBar appBarWidget({
   bool? showAppLogo,
   bool? showBackButton,
   Color? backgroundColor,
+  Color? titleColor,
   String? labelButton,
   Function()? onTap,
   TabController? tabController,
@@ -101,7 +106,7 @@ AppBar appBarWidget({
         ? Align(
       alignment: Alignment.centerLeft,
           child: cText(context, title, maxLines: 1,
-            style: TextStyles.large(context).copyWith(fontWeight: FontWeight.bold, color: ThemeColors.surface(context))),
+            style: TextStyles.large(context).copyWith(fontWeight: FontWeight.bold, color: titleColor ?? ThemeColors.surface(context))),
         ) : null,
     actions: actions ?? [
       if (onPopupMenuSelected != null && popupMenuItemBuilder != null)...[

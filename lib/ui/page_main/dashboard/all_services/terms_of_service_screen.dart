@@ -1,5 +1,4 @@
 import 'package:agent/core/constant_values/list_string_or_map_string_values.dart';
-import 'package:agent/ui/layouts/global_return_widgets/media_widgets_func.dart';
 import 'package:agent/ui/layouts/global_state_widgets/divider/custom_divider.dart';
 import 'package:agent/ui/layouts/styleconfig/textstyle.dart';
 import 'package:agent/ui/layouts/styleconfig/themecolors.dart';
@@ -7,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/constant_values/assets_values.dart';
 import '../../../../core/constant_values/global_values.dart';
+import '../../../../core/models/all_services_model/list_services.dart';
 import '../../../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../../../core/utilities/functions/media_query_func.dart';
 import '../../../../core/utilities/functions/page_routes_func.dart';
@@ -16,13 +15,12 @@ import '../../../layouts/global_state_widgets/button/button_progress/animation_p
 import '../../../layouts/global_state_widgets/custom_scaffold/custom_appbar.dart';
 import '../../../layouts/global_state_widgets/custom_scaffold/custom_scaffold.dart';
 import '../../../layouts/global_state_widgets/custom_text/markdown_text.dart';
-import '../../profile/call_us_screen.dart';
 import 'activation_service_screen.dart';
 
 class TermsOfServiceScreen extends StatelessWidget {
-  final String serviceType;
+  final ListServicesData serviceData;
 
-  const TermsOfServiceScreen({super.key, required this.serviceType});
+  const TermsOfServiceScreen({super.key, required this.serviceData});
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +39,20 @@ class TermsOfServiceScreen extends StatelessWidget {
     return CustomScaffold(
       useSafeArea: true,
       padding: EdgeInsets.zero,
-      appBar: appBarWidget(context: context, title: 'Syarat & Ketentuan', showBackButton: true, backgroundColor: Color(0xFF2E0948)),
+      appBar: appBarWidget(
+        context: context,
+        title: 'Syarat & Ketentuan',
+        titleColor: Colors.white,
+        showBackButton: true,
+        backgroundColor: Color(0xFF2E0948)
+      ),
       body: _bodyWidget(context),
       bottomNavigation: Padding(
         padding: const EdgeInsets.all(paddingMid),
         child: AnimateProgressButton(
             labelButton: 'Terima & Lanjutkan',
             useArrow: true,
-            onTap: () async => await startScreenFade(context, ActivationServiceScreen(serviceType: serviceType))
+            onTap: () async => await startScreenFade(context, ActivationServiceScreen(serviceData: serviceData))
         ),
       ),
     );
@@ -58,14 +62,20 @@ class TermsOfServiceScreen extends StatelessWidget {
     return CustomScaffold(
       useSafeArea: true,
       padding: EdgeInsets.zero,
-      appBar: appBarWidget(context: context, title: 'Syarat & Ketentuan', showBackButton: true, backgroundColor: Color(0xFF2E0948)),
+      appBar: appBarWidget(
+        context: context,
+        title: 'Syarat & Ketentuan',
+        titleColor: Colors.white,
+        showBackButton: true,
+        backgroundColor: Color(0xFF2E0948)
+      ),
       body: _bodyWidget(context),
       bottomNavigation: Padding(
         padding: const EdgeInsets.all(paddingMid),
         child: AnimateProgressButton(
             labelButton: 'Terima & Lanjutkan',
             useArrow: true,
-            onTap: () async => await startScreenFade(context, ActivationServiceScreen(serviceType: serviceType))
+            onTap: () async => await startScreenFade(context, ActivationServiceScreen(serviceData: serviceData))
         ),
       ),
     );
@@ -82,7 +92,7 @@ class TermsOfServiceScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Html(
-                data: "Syarat & Ketentuan Driver $serviceType",
+                data: "Syarat & Ketentuan ${serviceData.name ?? ''}",
                 style: {
                   "span": HtmlStyles.largeHtml(context).copyWith(color: ThemeColors.primary(context), fontWeight: FontWeight.bold),
                   "body": HtmlStyles.largeHtml(context).copyWith(fontWeight: FontWeight.bold, color: Colors.white),

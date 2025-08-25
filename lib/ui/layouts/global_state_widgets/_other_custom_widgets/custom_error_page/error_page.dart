@@ -7,7 +7,7 @@ import '../../../../../core/state_management/providers/_global_widget/main_navba
 import '../../../../../core/state_management/providers/_settings/appearance_provider.dart';
 import '../../../../../core/utilities/functions/media_query_func.dart';
 import '../../../../../core/utilities/functions/page_routes_func.dart';
-import '../../../../page_main/_bottom_navbar/main_navbar_custom.dart';
+import '../../../../page_main/_global_pages/main_navbar_custom.dart';
 import '../../../global_return_widgets/media_widgets_func.dart';
 import '../../../styleconfig/textstyle.dart';
 import '../../../styleconfig/themecolors.dart';

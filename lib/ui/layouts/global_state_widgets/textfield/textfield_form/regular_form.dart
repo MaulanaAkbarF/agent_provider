@@ -165,6 +165,9 @@ class RegularTextField extends StatelessWidget {
                     return 'Harap masukkan lebih dari $minInput karakter';
                   }
                 }
+                if (keyboardType == TextInputType.emailAddress && !value.contains('@')){
+                  return 'Harap masukkan format E-Mail dengan benar';
+                }
                 return null;
               },
               decoration: InputDecoration(
@@ -181,7 +184,10 @@ class RegularTextField extends StatelessWidget {
                 suffixIcon: suffixIcon != null ? GestureDetector(onTap: suffixOnTap, child: suffixIcon,) : null,
                 border: isOnlyBottomBorder != null && isOnlyBottomBorder! ? UnderlineInputBorder(
                   borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context), width: borderSize ?? 1),
-                ) : InputBorder.none,
+                ) : OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent, width: 0),
+                    borderRadius: borderRadius ?? BorderRadius.circular(radiusTriangle)
+                ),
                 enabledBorder: isOnlyBottomBorder != null && isOnlyBottomBorder! ? UnderlineInputBorder(
                   borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context), width: borderSize ?? 1),
                 ) : OutlineInputBorder(
@@ -196,7 +202,10 @@ class RegularTextField extends StatelessWidget {
                 ),
                 disabledBorder: isOnlyBottomBorder != null && isOnlyBottomBorder! ? UnderlineInputBorder(
                   borderSide: BorderSide(color: borderColor?.withValues(alpha: borderOpacity ?? 1.0) ?? ThemeColors.primary(context), width: borderSize ?? 1),
-                ) : InputBorder.none,
+                ) : OutlineInputBorder(
+                  borderSide: BorderSide(color: ThemeColors.warningVeryLowContrast(context), width: borderSize ?? 2),
+                  borderRadius: borderRadius ?? BorderRadius.circular(radiusTriangle)
+                ),
               ),
             ),
           ),

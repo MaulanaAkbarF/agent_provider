@@ -30,7 +30,7 @@ void showExceptionModalBottomSheet(BuildContext context, Exception? e) async {
     imagePath = exceptionNoData;
   } else {
     title = 'Maaf, sepertinya terjadi masalah :(';
-    description = 'Maaf atas ketidaknyamannya ya! Kami akan mencoba memperbaiki';
+    description = 'Maaf atas ketidaknyamannya ya, Kami akan mencoba memperbaikinya secepat mungkin!';
     imagePath = exceptionNoData;
   }
 

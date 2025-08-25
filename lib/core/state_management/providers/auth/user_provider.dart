@@ -80,9 +80,42 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Fungsi untuk menetapkan alamat sementara yang dipilih saat proses update profil
   Future<void> setUserAddressSelected(GeocodingModel data) async {
     if (data.address != null || data.address != 'Indonesia'){
       _userAddressSelected = data;
+      notifyListeners();
+    }
+  }
+
+  Future<void> setUserAddressSelectedNull() async {
+    clog('RUNTHIS setUserAddressSelectedNull');
+    _userAddressSelected = GeocodingModel(latitude: 0, longitude: 0);
+    notifyListeners();
+  }
+
+  /// Fungsi untuk menetapkan alamat sementara yang dipilih saat proses update profil
+  void updateUserData(User? data) {
+    if (data != null){
+      String? token = _auth?.token;
+      int? userId = _auth?.user.id;
+      String? userPhone = _auth?.user.phoneNumber;
+      clog('updateUserData Gender: ${data.gender}');
+      setAuth(
+        UserAuth(
+          token: token,
+          user: User(
+            id: userId ?? 0,
+            name: data.name,
+            email: data.email,
+            gender: data.gender,
+            address: data.address,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            phoneNumber: userPhone ?? '',
+          )
+        )
+      );
       notifyListeners();
     }
   }

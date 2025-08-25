@@ -1,8 +1,8 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 //
-// import '../../../../core/utilities/all_services/media_query_func.dart';
-// import '../../../../core/utilities/all_services/global_return_widgets/media_widgets_func.dart';
+// import '../../../../core/utilities/all_services_model/media_query_func.dart';
+// import '../../../../core/utilities/all_services_model/global_return_widgets/media_widgets_func.dart';
 // import '../../styleconfig/themecolors.dart';
 //
 // class ImageBackground extends StatelessWidget {

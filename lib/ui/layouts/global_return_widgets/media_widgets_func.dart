@@ -6,18 +6,17 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../ui/layouts/styleconfig/themecolors.dart';
 import '../../../core/constant_values/_setting_value/log_app_values.dart';
-import '../../../core/constant_values/global_values.dart';
 import '../../../core/utilities/functions/logger_func.dart';
 import '../../../core/utilities/local_storage/sqflite/services/_setting_services/log_app_services.dart';
 
 String getDefaultImageAssetPath() => 'assets/image/';
 
 Image loadDefaultAppLogoPNG({double? sizeLogo}) {
-  return Image.asset('assets/icon/logo.png', width: sizeLogo ?? 120, height: sizeLogo ?? 120,);
+  return Image.asset('assets/icon/logo.png', width: sizeLogo ?? 40, height: sizeLogo ?? 40);
 }
 
 SvgPicture loadDefaultAppLogoSVG({double? sizeLogo}) {
-  return SvgPicture.asset('assets/icon/logo.svg', width: sizeLogo ?? 120, height: sizeLogo ?? 120,);
+  return SvgPicture.asset('assets/icon/logo.svg', width: sizeLogo ?? 40, height: sizeLogo ?? 40);
 }
 
 /// Fungsi untuk load gambar PNG dari assets
@@ -51,7 +50,7 @@ Image loadImageXFile({XFile? file, double? width, double? height, Color? color, 
     errorBuilder: (context, e, s) {
       clog('Terjadi masalah ketika loadImageAssetXFile: $e\n$s');
       addLogApp(level: ListLogAppLevel.severe.level, title: e.toString(), logs: s.toString());
-      return Container(height: 100, width: double.infinity, color: Colors.transparent, child: Center(child: loadDefaultAppLogoSVG(sizeLogo: 100)));
+      return Container(height: 40, width: 40, color: Colors.transparent, child: Center(child: loadDefaultAppLogoSVG(sizeLogo: 40)));
     },
   );
 }
@@ -62,12 +61,15 @@ Widget loadLottieAsset({required String path, double? width, double? height}) {
 }
 
 /// Fungsi untuk load gambar dari internet
-Image loadImageNetwork({required String imageUrl, double? width, double? height}) {
+Widget loadImageNetwork({required String imageUrl, double? width, double? height}) {
+  if (imageUrl.endsWith('.svg')){
+    return SvgPicture.network(imageUrl, width: width ?? 20, height: height ?? 20, fit: BoxFit.cover);
+  }
   return Image.network(imageUrl, width: width ?? 20, height: height ?? 20, fit: BoxFit.cover,
     errorBuilder: (context, e, s) {
       clog('Terjadi masalah ketika loadImageNetwork: $e\n$s');
       addLogApp(level: ListLogAppLevel.severe.level, title: e.toString(), logs: s.toString());
-      return Container(height: 100, width: double.infinity, color: Colors.transparent, child: Center(child: loadDefaultAppLogoSVG(sizeLogo: 100)));
+      return Container(height: 40, width: 40, color: Colors.transparent, child: Center(child: loadDefaultAppLogoSVG(sizeLogo: 40)));
     },
   );
 }

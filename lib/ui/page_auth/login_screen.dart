@@ -45,9 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
       /// Namun jangan letakkan kode ini pada halaman splash screen atau sejenisnya
       /// Letakkan pada halaman login [jika tidak ada fitur auto-login] atau halaman beranda [jika terdapat fitur auto-login]
       /// Karena kode ini juga mencakup penanganan aksi notifikasi pada saat aplikasi dimatikan [onTerminated]
+      await UserShared.saveInitialUser();
       await fcmNotificationInit(context);
       await getFcmNotificationToken();
-      await UserShared.saveInitialUser();
     });
     super.initState();
   }

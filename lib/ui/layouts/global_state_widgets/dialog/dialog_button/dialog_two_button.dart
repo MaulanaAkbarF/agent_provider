@@ -61,15 +61,15 @@ class DialogTwoButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(radiusSquare),
             boxShadow: [
               BoxShadow(
-                color: ThemeColors.grey(context).withValues(alpha: shadowOpacityMid),
-                spreadRadius: shadowSpreadLow,
-                blurRadius: shadowBlueHigh,
-                offset: const Offset(0, shadowoffsetMid),
+                color: ThemeColors.grey(context).withValues(alpha: shadowOpacityHigh),
+                spreadRadius: 1,
+                blurRadius: shadowBlurMid,
+                offset: const Offset(0, 1),
               ),
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(paddingMid),
+            padding: const EdgeInsets.all(paddingFar),
             child: IntrinsicHeight(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -77,37 +77,25 @@ class DialogTwoButton extends StatelessWidget {
                   lottiePath != null ? loadLottieAsset(path: lottiePath!, width: sizeContentImages, height: sizeContentImages)
                       : imagePathPNG != null ? loadImageAssetPNG(path: imagePathPNG!, width: sizeContentImages, height: sizeContentImages, color: colorContentImages)
                       : iconData != null ? Icon(iconData, size: sizeContentImages, color: colorContentImages) : SizedBox(),
-                  cText(context, header, maxLines: 3, align: TextAlign.center, style: headerTextStyle ?? TextStyles.large(context).copyWith(color: ThemeColors.surface(context), fontWeight: FontWeight.w900)),
+                  cText(context, header, maxLines: 3, align: TextAlign.center, style: headerTextStyle ?? TextStyles.semiGiant(context).copyWith(color: ThemeColors.surface(context), fontWeight: FontWeight.w900)),
                   ColumnDivider(),
-                  cText(context, description, align: TextAlign.center, style: descriptionTextStyle ?? TextStyles.medium(context).copyWith(color: ThemeColors.surface(context))),
+                  cText(context, description, align: TextAlign.center, style: descriptionTextStyle ?? TextStyles.semiLarge(context).copyWith(color: ThemeColors.surface(context))),
+                  ColumnDivider(space: spaceFar),
+                  AnimateProgressButton(
+                    labelButton: acceptedText,
+                    labelButtonStyle: acceptedTextStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    labelProgress: loadingAcceptedText,
+                    onTap: () async => acceptedOnTap(),
+                  ),
                   ColumnDivider(),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AnimateProgressButton(
-                          labelButton: declinedText ?? 'Kembali',
-                          labelButtonStyle: declinedTextStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-                          labelProgress: loadingDeclinedText,
-                          height: heightMid,
-                          containerColor: ThemeColors.redHighContrast(context),
-                          containerRadius: radiusSquare,
-                          onTap: () async => declinedOnTap != null ? declinedOnTap!() : Navigator.pop(context),
-                        ),
-                      ),
-                      RowDivider(),
-                      Expanded(
-                        child: AnimateProgressButton(
-                          labelButton: acceptedText,
-                          labelButtonStyle: acceptedTextStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-                          labelProgress: loadingAcceptedText,
-                          height: heightMid,
-                          containerColor: ThemeColors.blueHighContrast(context),
-                          containerRadius: radiusSquare,
-                          onTap: () async => acceptedOnTap(),
-                        ),
-                      ),
-                    ],
-                  )
+                  AnimateProgressButton(
+                    labelButton: declinedText ?? 'Tutup',
+                    labelButtonStyle: declinedTextStyle ?? TextStyles.medium(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    labelProgress: loadingDeclinedText,
+                    containerColor: Colors.transparent,
+                    useShadow: false,
+                    onTap: () async => declinedOnTap != null ? declinedOnTap!() : Navigator.pop(context),
+                  ),
                 ],
               ),
             ),
